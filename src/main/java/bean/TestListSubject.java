@@ -2,7 +2,7 @@ package bean;
 
 import java.util.Map;
  
-public class TestLiseSubject {
+public class TestListSubject {
  
 	private int entYear;
 	

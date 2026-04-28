@@ -13,10 +13,10 @@ public class SubjectCreateAction extends Action {
         HttpSession session = req.getSession();
         Teacher teacher = (Teacher)session.getAttribute("user");
 
-//        if (teacher == null) {
-//            res.sendRedirect("/scoremanager/login.jsp");
-//            return;
-//        }
+        if (teacher == null) {
+            res.sendRedirect("/scoremanager/login.jsp");
+            return;
+        }
         // 3. JSPへフォワード
         req.getRequestDispatcher("subject_create.jsp").forward(req, res);
     }

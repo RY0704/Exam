@@ -25,11 +25,11 @@ public class SubjectCreateExecuteAction extends Action {
 		SubjectDao subjectDao = new SubjectDao();
 		Map<String, String> errors = new HashMap<>(); // エラーメッセージ
 
-		// リクエストパラメーターの取得 2
+		// リクエストパラメーターの取得
 		cd = req.getParameter("cd");
 		name = req.getParameter("name");
 
-		// ビジネスロジック 4
+		// ビジネスロジック
 		if (subjectDao.get(cd,  teacher.getSchool()) != null) { // 科目コードが重複している場合
 			errors.put("1", "科目コードが重複しています");
 			// リクエストにエラーメッセージをセット
@@ -43,11 +43,11 @@ public class SubjectCreateExecuteAction extends Action {
 			subjectDao.save(subject);
 		}
 
-		// レスポンス値をセット 6
+		// レスポンス値をセット
 		req.setAttribute("cd", cd);
 		req.setAttribute("name", name);
 
-		// JSPへフォワード 7
+		// JSPへフォワード
 		if (errors.isEmpty()) { // エラーメッセージがない場合
 			req.getRequestDispatcher("subject_create_done.jsp").forward(req, res);
 		} else { // エラーメッセージがある場合

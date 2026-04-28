@@ -38,7 +38,7 @@
 					</div>
 
 
-					<%-- 登録して終了ボタン --%>
+					<%-- 登録ボタン --%>
 					<div class="row mt-4">
 						<div class="col-12 px-4">
 							<button type="submit" name="end" class="btn btn-secondary">登録</button>

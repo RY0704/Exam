@@ -7,7 +7,7 @@
         <section class="me-4">
             <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">成績管理</h2>
             
-            <form action="TestRegist.action" method="get" class="mb-4">
+            <form action="TestList.action" method="get" class="mb-4">
                 <div class="row g-3 align-items-center">
                     <div class="col-auto">
                         <label class="form-label">学籍番号</label>

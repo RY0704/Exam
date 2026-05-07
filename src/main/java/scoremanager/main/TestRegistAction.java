@@ -76,6 +76,6 @@ public class TestRegistAction extends Action {
         req.setAttribute("f3", subjectCd);
         req.setAttribute("f4", num);
 
-        req.getRequestDispatcher("test_list.jsp").forward(req, res);
+        req.getRequestDispatcher("test_regist.jsp").forward(req, res);
     }
 }

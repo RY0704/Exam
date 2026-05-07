@@ -16,7 +16,8 @@
 			        <div class="row mb-3">
 			            <div class="col-12 px-4">
 			                <label class="form-label">科目コード</label>
-			                <input class="form-control" type="text" name="cd" value="${subject.cd}" readonly>
+			                <%-- 条件追加: readonly --%>
+			                <input class="form-control" type="text" name="cd" value="${subject.subjectCd}" readonly>
 			            </div>
 			        </div>
 			
@@ -25,8 +26,9 @@
 			        <div class="row mb-3">
 			            <div class="col-12 px-4">
 			                <label class="form-label">科目名</label>
-			                <input class="form-control" type="text" name="name" value="${subject.name}" 
-			                       maxlength="30" placeholder="科目名を入力してください" required>
+			                <%-- 条件変更: maxlength="20", 条件追加: required --%>
+			                <input class="form-control" type="text" name="name" value="${subject.subjectName}" 
+			                       maxlength="20" placeholder="科目名を入力してください" required>
 			            </div>
 			        </div>
 			

@@ -38,6 +38,7 @@ public class SubjectCreateExecuteAction extends Action {
 			// subjectに科目情報をセット
 			subject.setSubjectCd(cd);
 			subject.setSubjectName(name);
+			subject.setSchool(teacher.getSchool());
 			
 			// saveメソッドで情報を登録
 			subjectDao.save(subject);

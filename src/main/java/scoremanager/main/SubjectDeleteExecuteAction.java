@@ -1,5 +1,7 @@
-package bean; // あなたのEclipseでエラーが出ないパッケージ名
+package scoremanager.main; // あなたのEclipseでエラーが出ないパッケージ名
 
+import bean.Subject;
+import bean.Teacher;
 import dao.SubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

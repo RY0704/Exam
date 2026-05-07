@@ -12,12 +12,12 @@
         <p>科目情報を削除します。よろしいですか？</p>
         
         <div>
-            科目コード：${subject.cd}<br>
-            科目名：${subject.name}
+           科目コード：${subject.subjectCd}<br>
+			科目名：${subject.subjectName}
         </div>
 
         <form action="SubjectDeleteExecute.action" method="post">
-            <input type="hidden" name="cd" value="${subject.cd}">
+            <input type="hidden" name="cd" value="${subject.subjectCd}">
             <input type="submit" value="削除">
         </form>
 

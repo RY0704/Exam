@@ -49,7 +49,7 @@
 					<%-- 戻るリンク --%>
 					<div class="row mt-3">
 						<div class="col-12 px-4">
-							<a href="SubjecctList.action" class="text-decoration-none">戻る</a>
+							<a href="SubjectList.action" class="text-decoration-none">戻る</a>
 						</div>
 					</div>
 				</div>

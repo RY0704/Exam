@@ -9,7 +9,7 @@ import tool.Action;
 public class SubjectCreateAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-        // 1. セッションからログインユーザー情報を取得（学校コード特定のため）
+        // 1. ああセッションからログインユーザー情報を取得（学校コード特定のため）
         HttpSession session = req.getSession();
         Teacher teacher = (Teacher)session.getAttribute("user");
 

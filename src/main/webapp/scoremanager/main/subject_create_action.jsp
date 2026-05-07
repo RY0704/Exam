@@ -22,7 +22,7 @@
 					<%-- 科目コード --%>
 					<div class="row mb-3">
 						<div class="col-12 px-4">
-							<label class="form-label">科目コード</label>
+							<label class="form-label">科目コードああ</label>
 							<input class="form-control" type="text" name="cd" value="${cd}" 
 								   maxlength="3" placeholder="科目コードを入力してください" required>
 						</div>

@@ -35,7 +35,7 @@ public class SubjectCreateExecuteAction extends Action {
 			// リクエストにエラーメッセージをセット
 			req.setAttribute("errors", errors);
 		} else {
-			// subjectに科目情報をセット
+			// subjectに科目情報をセットああ
 			subject.setSubjectCd(cd);
 			subject.setSubjectName(name);
 			

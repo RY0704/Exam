@@ -6,13 +6,13 @@
 	<c:param name="title">
 		得点管理システム
 	</c:param>
-
+ 
 	<c:param name="scripts"></c:param>
 	
 	<c:param name="content">
     <section class="me-4">
         <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">成績参照</h2>
-
+ 
         <%-- 全体を囲むフォーム --%>
         <form action="TestList.action" method="get">
             <input type="hidden" id="search-mode" name="f" value="">
@@ -48,26 +48,21 @@
                         <label class="form-label" for="subject-f3-select">科目</label>
                         <select class="form-select" id="subject-f3-select" name="f3">
                             <option value="0">--------</option>
-<<<<<<< HEAD
-                            <c:forEach var="sub" items="${subjects}">
-                                <option value="${sub.subjectCd}" <c:if test="${sub.subjectCd == f3}">selected</c:if>>${sub.subjectName}</option>
-=======
                             <c:forEach var="subject" items="${subjects}">
                                 <option value="${subject.subjectCd}" <c:if test="${subject.subjectCd==f3}">selected</c:if>>${subject.subjectName}</option>
->>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
                             </c:forEach>
                         </select>
                     </div>
                     <%-- 検索ボタン --%>
                     <div class="col-2">
                         <%-- onclickでhiddenの値を 'sj' に書き換えて送信 --%>
-                        <button type="submit" class="btn btn-secondary w-75" 
+                        <button type="submit" class="btn btn-secondary w-75"
                                 onclick="document.getElementById('search-mode').value='sj'">検索</button>
                     </div>
                 </div>
-
+ 
                 <hr> <%-- 区切り線 --%>
-
+ 
                 <%-- 学生情報エリア --%>
                 <div class="row align-items-end mb-3">
                     <div class="col-md-2">
@@ -75,16 +70,16 @@
                     </div>
                     <div class="col-4">
                         <label class="form-label">学生番号</label>
-                        <input class="form-control" type="text" name="f4" value="${f4}" 
+                        <input class="form-control" type="text" name="f4" value="${f4}"
                                maxlength="10" placeholder="学生番号を入力してください">
                     </div>
                     <div class="col-2">
                         <%-- onclickでhiddenの値を 'st' に書き換えて送信 --%>
-                        <button type="submit" class="btn btn-secondary w-75" 
+                        <button type="submit" class="btn btn-secondary w-75"
                                 onclick="document.getElementById('search-mode').value='st'">検索</button>
                     </div>
                 </div>
-
+ 
             </div>
             
             <%-- 注意書きメッセージ --%>
@@ -95,4 +90,3 @@
     </section>
     </c:param>
 </c:import>
-

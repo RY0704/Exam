@@ -84,6 +84,7 @@ public class TestDao extends Dao {
 	            test.setSchool(school);
 	            
 	            list.add(test);
+
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();

@@ -57,13 +57,8 @@
                     科目コード：${f3} （${f4}回目）
                 </div>
 
-                <%-- 登録・更新用のアクションへ --%>
+             
                 <form action="TestRegistExecute.action" method="post">
-                    <%-- 
-                        【重要】ここがポイント！
-                        これらを hidden で持っておかないと、Action側で 
-                        Integer.parseInt(req.getParameter("f4")) が null になりエラーになります。
-                    --%>
                     <input type="hidden" name="f1" value="${f1}">
                     <input type="hidden" name="f2" value="${f2}">
                     <input type="hidden" name="f3" value="${f3}">
@@ -87,10 +82,16 @@
                                     <td>${t.student.studentNo}</td>
                                     <td>${t.student.studentName}</td>
                                     <td>
-                                        <%-- 点数入力欄。nameは point_学籍番号 になります --%>
                                         <input type="number" name="point_${t.student.studentNo}" 
                                                value="${t.point}" class="form-control" 
-                                               min="0" max="100" style="width: 100px;">
+                                               style="width: 100px;">
+                                        <c:forEach var="errNo" items="${errorStudentNos}">
+									        <c:if test="${errNo == t.student.studentNo}">
+									            <div style="color: #ffb200;; font-size: 0.8em; margin-top: 5px;">
+									                0〜100の範囲で入力してください
+									            </div>
+									        </c:if>
+									    </c:forEach>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -103,7 +104,7 @@
                 </form>
             </c:if>
             
-            <%-- メッセージ表示（Actionで req.setAttribute("message", ...) した場合） --%>
+            <%-- 完了メッセージ表示 --%>
             <c:if test="${not empty message}">
                 <div class="alert alert-success mt-3">
                     ${message}

@@ -57,6 +57,12 @@ public class TestRegistAction extends Action {
         int currentYear = LocalDate.now().getYear();
         for (int i = currentYear - 10; i <= currentYear; i++) {
             ent_year_list.add(i);
+            
+            
+            
+            
+
+            
         }
 
      // 検索ボタン(⑩)が押された時の処理

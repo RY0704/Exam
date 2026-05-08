@@ -26,7 +26,17 @@ public class TestRegistAction extends Action {
         String entYearStr = req.getParameter("f1"); // 入学年度
         String classNum = req.getParameter("f2");   // クラス
         String subjectCd = req.getParameter("f3");  // 科目
+<<<<<<< HEAD
         String numStr = req.getParameter("f4");     // 回数
+=======
+        String numStr = req.getParameter("f4");      // 回数
+     // 27行目（numStrの取得）の直後あたりに追加
+        System.out.println("--- 検索パラメータの確認 ---");
+        System.out.println("入学年度(f1): " + entYearStr);
+        System.out.println("クラス(f2): " + classNum);
+        System.out.println("科目コード(f3): " + subjectCd);
+        System.out.println("回数(f4): " + numStr);
+>>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
 
         int entYear = 0;
         if (entYearStr != null && !entYearStr.equals("0")) {

@@ -61,4 +61,18 @@ public class Test {
 	public void setClassNum(String classNum) {
 		this.classNum = classNum;
 	}
+	
+	// Test.java の中に追加
+
+	private Student student; // Studentオブジェクトを保持するフィールド
+
+	// これが「窓口」になるメソッド
+	public void setStudent(Student student) {
+	    this.student = student;
+	}
+
+	// JSPで表示するためにゲッターも必要
+	public Student getStudent() {
+	    return student;
+	}
 }

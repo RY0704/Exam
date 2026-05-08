@@ -14,16 +14,6 @@ import bean.Test;
 public class TestDao extends Dao {
 
     /**
-     * クラス図に基づいたベースSQL
-     * studentテーブルをJOINし、名前や入学年度も取得できるようにしています
-     */
-    private final String baseSql = 
-        "select t.*, s.student_name, s.ent_year " +
-        "from test t " +
-        "join student s on t.student_no = s.student_no " +
-        "and t.school_cd = s.school_cd ";
-
-    /**
      * 指定された条件で1件の成績情報を取得する
      */
     public Test get(Student student, Subject subject, School school, int no) throws Exception {
@@ -32,8 +22,10 @@ public class TestDao extends Dao {
         PreparedStatement statement = null;
 
         try {
-            // ベースSQLに条件を追加（テーブル名 t. を明示）
-            String sql = baseSql + "where t.student_no=? and t.subject_cd=? and t.school_cd=? and t.no=?";
+            // SELECT文も順番を明示
+            String sql = "select t.*, s.student_name, s.ent_year from test t " +
+                         "join student s on t.student_no = s.student_no and t.school_cd = s.school_cd " +
+                         "where t.student_no=? and t.subject_cd=? and t.school_cd=? and t.no=?";
             statement = connection.prepareStatement(sql);
             statement.setString(1, student.getStudentNo());
             statement.setString(2, subject.getSubjectCd());
@@ -54,7 +46,7 @@ public class TestDao extends Dao {
     }
 
     /**
-     * 検索条件（入学年度、クラス、科目、回数）に合致する成績一覧を取得する
+     * 検索条件に合致する成績一覧を取得する
      */
     public List<Test> filter(int entYear, String classNum, Subject subject, int num, School school) throws Exception {
         List<Test> list = new ArrayList<>();
@@ -62,11 +54,11 @@ public class TestDao extends Dao {
         PreparedStatement statement = null;
 
         try {
-            // SQL文：IS_ATTENDフラグも含めてチェック
-            String sql = baseSql + 
-                "where s.ent_year = ? and s.class_num = ? and t.subject_cd = ? " +
-                "and t.no = ? and t.school_cd = ? and s.is_attend = true " +
-                "order by t.student_no";
+            String sql = "select t.*, s.student_name, s.ent_year from test t " +
+                         "join student s on t.student_no = s.student_no and t.school_cd = s.school_cd " +
+                         "where s.ent_year = ? and s.class_num = ? and t.subject_cd = ? " +
+                         "and t.no = ? and t.school_cd = ? and s.is_attend = true " +
+                         "order by t.student_no";
 
             statement = connection.prepareStatement(sql);
             statement.setInt(1, entYear);
@@ -86,7 +78,7 @@ public class TestDao extends Dao {
     }
 
     /**
-     * ResultSetから得られた情報をTestオブジェクトに詰め替える（Student情報も紐付け）
+     * ResultSetからTestオブジェクトに詰め替える
      */
     private List<Test> postFilter(ResultSet rSet, School school) throws Exception {
         List<Test> list = new ArrayList<>();
@@ -99,14 +91,10 @@ public class TestDao extends Dao {
             test.setClassNum(rSet.getString("class_num"));
             test.setSchool(school);
 
-            // 学生(Student) Beanを作成し、Test Beanにセットする（JSP表示用）
             Student student = new Student();
             student.setStudentNo(rSet.getString("student_no"));
-            student.setStudentName(rSet.getString("student_name")); // DBのカラム名に準拠
+            student.setStudentName(rSet.getString("student_name"));
             student.setEntYear(rSet.getInt("ent_year"));
-            student.setClassNum(rSet.getString("class_num"));
-            
-            // 重要：Test.javaに作成した setStudent メソッドを呼び出す
             test.setStudent(student);
 
             list.add(test);
@@ -115,7 +103,7 @@ public class TestDao extends Dao {
     }
 
     /**
-     * 成績情報のリストを一括保存（登録または更新）する
+     * 成績情報のリストを一括保存する
      */
     public boolean save(List<Test> list) throws Exception {
         Connection connection = getConnection();
@@ -148,15 +136,25 @@ public class TestDao extends Dao {
     private boolean save(Test test, Connection connection) throws Exception {
         PreparedStatement statement = null;
         try {
-            // MERGE文：既存データがあればUPDATE、なければINSERTを行う
-            String sql = "merge into test key(student_no, subject_cd, school_cd, no) " +
+            // 【重要】 values の順番と、下の setString の番号を完全に一致させます
+            // 順番: 1:student_no, 2:school_cd, 3:subject_cd, 4:no, 5:point, 6:class_num
+            String sql = "merge into test (student_no, school_cd, subject_cd, no, point, class_num) " +
+                         "key(student_no, school_cd, subject_cd, no) " +
                          "values(?, ?, ?, ?, ?, ?)";
+            
             statement = connection.prepareStatement(sql);
+            
+            // 1番目: 学籍番号
             statement.setString(1, test.getStudentNo());
-            statement.setString(2, test.getSubjectCd());
-            statement.setString(3, test.getSchool().getSchoolCd());
+            // 2番目: 学校コード (画像の "tes" の位置)
+            statement.setString(2, test.getSchool().getSchoolCd());
+            // 3番目: 科目コード (画像の "001" の位置)
+            statement.setString(3, test.getSubjectCd());
+            // 4番目: 回数
             statement.setInt(4, test.getNo());
+            // 5番目: 得点
             statement.setInt(5, test.getPoint());
+            // 6番目: クラス番号
             statement.setString(6, test.getClassNum());
 
             statement.executeUpdate();

@@ -22,11 +22,11 @@ public class TestRegistAction extends Action {
         HttpSession session = req.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
 
-        // 画面のプルダウン(⑥〜⑨)から値を取得
+        // リクエストパラメータの取得
         String entYearStr = req.getParameter("f1"); // 入学年度
         String classNum = req.getParameter("f2");   // クラス
         String subjectCd = req.getParameter("f3");  // 科目
-        String numStr = req.getParameter("f4");      // 回数
+        String numStr = req.getParameter("f4");     // 回数
 
         int entYear = 0;
         if (entYearStr != null && !entYearStr.equals("0")) {
@@ -42,40 +42,41 @@ public class TestRegistAction extends Action {
         ClassNumDao cDao = new ClassNumDao();
         SubjectDao sDao = new SubjectDao();
 
-        // プルダウン用のデータを取得
+        // プルダウン用データの取得
         List<String> class_list = cDao.filter(teacher.getSchool());
         List<Subject> subject_list = sDao.filter(teacher.getSchool());
         
-        // 入学年度リスト（過去10年分）
         List<Integer> ent_year_list = new ArrayList<>();
         int currentYear = LocalDate.now().getYear();
         for (int i = currentYear - 10; i <= currentYear; i++) {
             ent_year_list.add(i);
         }
 
-     // 検索ボタン(⑩)が押された時の処理
-        if (entYear != 0 && classNum != null && subjectCd != null && num != 0) {
-            // 1. まず、科目コード(subjectCd)を元にSubjectオブジェクトを取得する
-            Subject subject = sDao.get(subjectCd, teacher.getSchool());
-
-            // 2. TestDaoのfilterに合わせる（年度, クラス, 科目オブジェクト, 回数, 学校）
-            // エラー文によるとこの順番で渡す必要があります
-            List<Test> tests = tDao.filter(entYear, classNum, subject, num, teacher.getSchool());
+        // 【修正点】検索ボタンが押された時の処理を整理
+        if (entYear != 0 && classNum != null && !classNum.equals("0") && 
+            subjectCd != null && !subjectCd.equals("0") && num != 0) {
+            
+            System.out.println("DEBUG: 検索条件一致。検索を開始します。");
+            
+            // TestDaoの引数（int, String, String, int, School）に合わせて呼び出し
+            List<Test> tests = tDao.filter(entYear, classNum, subjectCd, num, teacher.getSchool());
+            
+            System.out.println("DEBUG: 取得結果 = " + (tests != null ? tests.size() : 0) + "件");
             
             req.setAttribute("tests", tests);
         }
 
-        // JSPにデータを渡す
+        // 画面表示用データのセット
         req.setAttribute("ent_year_set", ent_year_list);
         req.setAttribute("class_num_set", class_list);
         req.setAttribute("subjects", subject_list);
         
-        // 選択状態を保持するための値を送る
+        // 選択状態の保持
         req.setAttribute("f1", entYear);
         req.setAttribute("f2", classNum);
         req.setAttribute("f3", subjectCd);
         req.setAttribute("f4", num);
 
-        req.getRequestDispatcher("test_list.jsp").forward(req, res);
+        req.getRequestDispatcher("/scoremanager/main/test_list.jsp").forward(req, res);
     }
 }

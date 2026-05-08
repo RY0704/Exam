@@ -34,7 +34,7 @@
                         <select name="f3" class="form-select">
                             <option value="0">--------</option>
                             <c:forEach var="sub" items="${subjects}">
-                                <option value="${sub.cd}" <c:if test="${sub.cd == f3}">selected</c:if>>${sub.name}</option>
+                                <option value="${sub.subjectCd}" <c:if test="${sub.subjectCd == f3}">selected</c:if>>${sub.subjectName}</option>
                             </c:forEach>
                         </select>
                     </div>

@@ -41,6 +41,7 @@ public class TestDao extends Dao {
         return test;
     }
 
+<<<<<<< HEAD
     private List<Test> postFilter(ResultSet resultSet, School school) throws Exception {
         List<Test> list = new ArrayList<>();
         while (resultSet.next()) {
@@ -55,6 +56,39 @@ public class TestDao extends Dao {
         }
         return list;
     }
+=======
+		return test;
+	}
+	private List<Test> postFilter(ResultSet resultSet, School school) throws Exception {
+	    List<Test> list = new ArrayList<>();
+	    try {
+	        while (resultSet.next()) {
+	            Test test = new Test();
+	            // Test Beanのフィールドに合わせてセット
+	            test.setStudentNo(resultSet.getString("student_no"));
+	            test.setSubjectCd(resultSet.getString("subject_cd"));
+	            test.setNo(resultSet.getInt("no"));
+	            test.setPoint(resultSet.getInt("point"));
+	            test.setClassNum(resultSet.getString("class_num"));
+	            test.setSchool(school);
+	            
+	            list.add(test);
+
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw e;
+	    }
+	    return list;
+	}
+	public List<Test> filter(
+	        int entYear,
+	        String classNum,
+	        Subject subject,
+	        int num,
+	        School school
+	) throws Exception {
+>>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
 
     public List<Test> filter(int entYear, String classNum, String subjectCd, int num, School school) throws Exception {
         List<Test> list = new ArrayList<>();

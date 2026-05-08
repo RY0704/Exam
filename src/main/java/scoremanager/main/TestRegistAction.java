@@ -77,6 +77,10 @@ public class TestRegistAction extends Action {
         req.setAttribute("f3", subjectCd);
         req.setAttribute("f4", num);
 
+<<<<<<< HEAD
         req.getRequestDispatcher("/scoremanager/main/test_list.jsp").forward(req, res);
+=======
+        req.getRequestDispatcher("test_regist.jsp").forward(req, res);
+>>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
     }
 }

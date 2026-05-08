@@ -1,4 +1,4 @@
-<%-- 成績参照JSP --%>
+<%-- 学生一覧JSP --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
@@ -14,7 +14,7 @@
         <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">成績参照</h2>
 
         <%-- 全体を囲むフォーム --%>
-        <form action="TestList.action" method="get">
+        <form action="TestRegist.action" method="get">
             <input type="hidden" id="search-mode" name="f" value="">
             <div class="container-fluid border rounded p-2">
                 
@@ -48,20 +48,15 @@
                         <label class="form-label" for="subject-f3-select">科目</label>
                         <select class="form-select" id="subject-f3-select" name="f3">
                             <option value="0">--------</option>
-<<<<<<< HEAD
-                            <c:forEach var="sub" items="${subjects}">
-                                <option value="${sub.subjectCd}" <c:if test="${sub.subjectCd == f3}">selected</c:if>>${sub.subjectName}</option>
-=======
                             <c:forEach var="subject" items="${subjects}">
-                                <option value="${subject.subjectCd}" <c:if test="${subject.subjectCd==f3}">selected</c:if>>${subject.subjectName}</option>
->>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
+                                <option value="${subject.cd}" <c:if test="${subject.cd==f3}">selected</c:if>>${subject.name}</option>
                             </c:forEach>
                         </select>
                     </div>
                     <%-- 検索ボタン --%>
                     <div class="col-2">
                         <%-- onclickでhiddenの値を 'sj' に書き換えて送信 --%>
-                        <button type="submit" class="btn btn-secondary w-75" 
+                        <button type="submit" class="btn btn-secondary w-100" 
                                 onclick="document.getElementById('search-mode').value='sj'">検索</button>
                     </div>
                 </div>
@@ -80,7 +75,7 @@
                     </div>
                     <div class="col-2">
                         <%-- onclickでhiddenの値を 'st' に書き換えて送信 --%>
-                        <button type="submit" class="btn btn-secondary w-75" 
+                        <button type="submit" class="btn btn-secondary w-100" 
                                 onclick="document.getElementById('search-mode').value='st'">検索</button>
                     </div>
                 </div>

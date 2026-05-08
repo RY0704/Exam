@@ -1,4 +1,4 @@
-<%-- 学生一覧JSP --%>
+<%-- 成績参照JSP --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
@@ -14,13 +14,14 @@
         <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">成績参照</h2>
 
         <%-- 全体を囲むフォーム --%>
-        <form action="TestRegist.action" method="get">
-            <div class="container-fluid border rounded p-4">
+        <form action="TestList.action" method="get">
+            <input type="hidden" id="search-mode" name="f" value="">
+            <div class="container-fluid border rounded p-2">
                 
                 <%-- 科目情報エリア --%>
-                <div class="row align-items-end mb-4">
+                <div class="row align-items-end mb-3">
                     <div class="col-md-2">
-                        <p class="fw-bold m-0 mt-1">科目情報</p>
+                        <p class="fw-bold m-2 mt-1">科目情報</p>
                     </div>
                     <%-- 入学年度 --%>
                     <div class="col-2">
@@ -47,17 +48,16 @@
                         <label class="form-label" for="subject-f3-select">科目</label>
                         <select class="form-select" id="subject-f3-select" name="f3">
                             <option value="0">--------</option>
-                           <c:forEach var="subject" items="${subjects}">
-							    <%-- .cd ではなく .subjectCd にする --%>
-								<option value="${subject.subjectCd}" <c:if test="${subject.subjectCd==f3}">selected</c:if>>
-								        ${subject.subjectName} <%-- .name ではなく .subjectName にする --%>
-							    </option>
-							</c:forEach>
+                            <c:forEach var="subject" items="${subjects}">
+                                <option value="${subject.subjectCd}" <c:if test="${subject.subjectCd==f3}">selected</c:if>>${subject.subjectName}</option>
+                            </c:forEach>
                         </select>
                     </div>
                     <%-- 検索ボタン --%>
                     <div class="col-2">
-                        <button type="submit" class="btn btn-secondary w-100">検索</button>
+                        <%-- onclickでhiddenの値を 'sj' に書き換えて送信 --%>
+                        <button type="submit" class="btn btn-secondary w-70" 
+                                onclick="document.getElementById('search-mode').value='sj'">検索</button>
                     </div>
                 </div>
 
@@ -66,7 +66,7 @@
                 <%-- 学生情報エリア --%>
                 <div class="row align-items-end mb-3">
                     <div class="col-md-2">
-                        <p class="fw-bold m-0 mt-1">学生情報</p>
+                        <p class="fw-bold m-2 mt-1">学生情報</p>
                     </div>
                     <div class="col-4">
                         <label class="form-label">学生番号</label>
@@ -74,7 +74,9 @@
                                maxlength="10" placeholder="学生番号を入力してください">
                     </div>
                     <div class="col-2">
-                        <button type="submit" class="btn btn-secondary w-100">検索</button>
+                        <%-- onclickでhiddenの値を 'st' に書き換えて送信 --%>
+                        <button type="submit" class="btn btn-secondary w-70" 
+                                onclick="document.getElementById('search-mode').value='st'">検索</button>
                     </div>
                 </div>
 

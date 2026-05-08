@@ -16,7 +16,7 @@
         <%-- 全体を囲むフォーム --%>
         <form action="TestRegist.action" method="get">
             <input type="hidden" id="search-mode" name="f" value="">
-            <div class="container-fluid border rounded p-4">
+            <div class="container-fluid border rounded p-2">
                 
                 <%-- 科目情報エリア --%>
                 <div class="row align-items-end mb-3">

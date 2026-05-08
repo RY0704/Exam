@@ -1,4 +1,4 @@
-<%-- 学生一覧JSP --%>
+<%-- 成績参照JSP --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
@@ -49,7 +49,7 @@
                         <select class="form-select" id="subject-f3-select" name="f3">
                             <option value="0">--------</option>
                             <c:forEach var="subject" items="${subjects}">
-                                <option value="${subject.cd}" <c:if test="${subject.cd==f3}">selected</c:if>>${subject.name}</option>
+                                <option value="${subject.subjectCd}" <c:if test="${subject.subjectCd==f3}">selected</c:if>>${subject.subjectName}</option>
                             </c:forEach>
                         </select>
                     </div>

@@ -56,7 +56,7 @@
                     <%-- 検索ボタン --%>
                     <div class="col-2">
                         <%-- onclickでhiddenの値を 'sj' に書き換えて送信 --%>
-                        <button type="submit" class="btn btn-secondary w-70" 
+                        <button type="submit" class="btn btn-secondary w-75" 
                                 onclick="document.getElementById('search-mode').value='sj'">検索</button>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="col-2">
                         <%-- onclickでhiddenの値を 'st' に書き換えて送信 --%>
-                        <button type="submit" class="btn btn-secondary w-70" 
+                        <button type="submit" class="btn btn-secondary w-75" 
                                 onclick="document.getElementById('search-mode').value='st'">検索</button>
                     </div>
                 </div>

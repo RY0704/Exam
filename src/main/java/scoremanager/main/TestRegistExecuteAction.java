@@ -1,5 +1,4 @@
 package scoremanager.main;
-<<<<<<< HEAD
  
  
 import java.util.ArrayList;
@@ -22,30 +21,6 @@ public class TestRegistExecuteAction extends Action {
         Teacher teacher = (Teacher) session.getAttribute("user");
         School school = teacher.getSchool();
  
-=======
-
-
-import java.util.ArrayList;
-import java.util.List;
-
-import bean.School;
-import bean.Teacher;
-import bean.Test;
-import dao.TestDao;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import tool.Action;
-
-public class TestRegistExecuteAction extends Action {
-
-    @Override
-    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-        HttpSession session = req.getSession();
-        Teacher teacher = (Teacher) session.getAttribute("user");
-        School school = teacher.getSchool();
-
->>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
         // 1. どの科目の何回目か、保存に必要な情報を取得
         // ※JSPの検索パラメータ(f3, f4)が hidden などで送られている前提
         String subjectCd = req.getParameter("f3");
@@ -92,6 +67,8 @@ public class TestRegistExecuteAction extends Action {
         req.setAttribute("f2", classNum);
         req.setAttribute("f3", subjectCd);
         req.setAttribute("f4", num);
+        
         req.getRequestDispatcher("test_regist_done.jsp").forward(req, res);
     }
 }
+ 

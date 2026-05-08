@@ -21,11 +21,7 @@ public class TestRegistAction extends Action {
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
         HttpSession session = req.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
-<<<<<<< HEAD
  
-=======
-
->>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
         // 画面のプルダウン(⑥〜⑨)から値を取得
         String entYearStr = req.getParameter("f1"); // 入学年度
         String classNum = req.getParameter("f2");   // クラス
@@ -37,11 +33,7 @@ public class TestRegistAction extends Action {
         System.out.println("クラス(f2): " + classNum);
         System.out.println("科目コード(f3): " + subjectCd);
         System.out.println("回数(f4): " + numStr);
-<<<<<<< HEAD
  
-=======
-
->>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
         int entYear = 0;
         if (entYearStr != null && !entYearStr.equals("0")) {
             entYear = Integer.parseInt(entYearStr);
@@ -55,71 +47,42 @@ public class TestRegistAction extends Action {
         TestDao tDao = new TestDao();
         ClassNumDao cDao = new ClassNumDao();
         SubjectDao sDao = new SubjectDao();
-<<<<<<< HEAD
  
-=======
-
->>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
         // プルダウン用のデータを取得
         List<String> class_list = cDao.filter(teacher.getSchool());
         List<Subject> subject_list = sDao.filter(teacher.getSchool());
-<<<<<<< HEAD
-=======
         
->>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
         // 入学年度リスト（過去10年分）
         List<Integer> ent_year_list = new ArrayList<>();
         int currentYear = LocalDate.now().getYear();
         for (int i = currentYear - 10; i <= currentYear; i++) {
             ent_year_list.add(i);
         }
-<<<<<<< HEAD
  
      // 検索ボタン(⑩)が押された時の処理
         if (entYear != 0 && classNum != null && subjectCd != null && num != 0) {
             // 1. まず、科目コード(subjectCd)を元にSubjectオブジェクトを取得する
             Subject subject = sDao.get(subjectCd, teacher.getSchool());
  
-            // 2. TestDaoのfilterに合わせる（年度, クラス, 科目オブジェクト, 回数, 学校）
-            // エラー文によるとこの順番で渡す必要があります
-            List<Test> tests = tDao.filter(entYear, classNum, subject, num, teacher.getSchool());
-=======
-
-     // 検索ボタン(⑩)が押された時の処理
-        if (entYear != 0 && classNum != null && subjectCd != null && num != 0) {
-            // 1. まず、科目コード(subjectCd)を元にSubjectオブジェクトを取得する
-            Subject subject = sDao.get(subjectCd, teacher.getSchool());
-
             // 2. TestDaoのfilterに合わせる（年度, クラス, 科目オブジェクト, 回数, 学校）
             // エラー文によるとこの順番で渡す必要があります
             List<Test> tests = tDao.filter(entYear, classNum, subject, num, teacher.getSchool());
             
->>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
             req.setAttribute("tests", tests);
         }
-<<<<<<< HEAD
  
-=======
-
->>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
         // JSPにデータを渡す
         req.setAttribute("ent_year_set", ent_year_list);
         req.setAttribute("class_num_set", class_list);
         req.setAttribute("subjects", subject_list);
-<<<<<<< HEAD
-=======
         
->>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
         // 選択状態を保持するための値を送る
         req.setAttribute("f1", entYear);
         req.setAttribute("f2", classNum);
         req.setAttribute("f3", subjectCd);
         req.setAttribute("f4", num);
-<<<<<<< HEAD
  
-=======
-
->>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
         req.getRequestDispatcher("test_regist.jsp").forward(req, res);
     }
 }
+ 

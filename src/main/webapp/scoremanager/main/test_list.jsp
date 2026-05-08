@@ -48,13 +48,10 @@
                         <label class="form-label" for="subject-f3-select">科目</label>
                         <select class="form-select" id="subject-f3-select" name="f3">
                             <option value="0">--------</option>
-<<<<<<< HEAD
                             <c:forEach var="sub" items="${subjects}">
                                 <option value="${sub.subjectCd}" <c:if test="${sub.subjectCd == f3}">selected</c:if>>${sub.subjectName}</option>
-=======
                             <c:forEach var="subject" items="${subjects}">
                                 <option value="${subject.subjectCd}" <c:if test="${subject.subjectCd==f3}">selected</c:if>>${subject.subjectName}</option>
->>>>>>> branch 'master' of https://github.com/RY0704/Exam.git
                             </c:forEach>
                         </select>
                     </div>

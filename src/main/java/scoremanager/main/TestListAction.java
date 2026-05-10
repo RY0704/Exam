@@ -51,13 +51,7 @@ public class TestListAction extends Action {
             tests = tDao.filter(entYear, classNum, subject, num, teacher.getSchool());
             
         } 
-        // B. 学生番号が入力されている場合（科目情報が不完全でも学生番号があれば優先）
-        else if (studentNo != null && !studentNo.isEmpty()) {
-            // TestDaoに学生番号で検索するメソッドがある前提です
-            // tests = tDao.filterByStudent(studentNo, teacher.getSchool());
-            
-            // もしメソッドがない場合は、学生番号でTestのリストを返す処理をDAOに追加してください
-        }
+     
 
         // --- 3. プルダウン用データの取得 ---
         List<String> class_list = cDao.filter(teacher.getSchool());

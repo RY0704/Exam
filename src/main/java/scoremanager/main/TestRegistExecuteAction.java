@@ -35,7 +35,7 @@ public class TestRegistExecuteAction extends Action {
         // ★ エラーがあった学籍番号を格納するリスト
         List<String> errorStudentNos = new ArrayList<>();
         
-        java.util.Enumeration<String> names = req.getParameterNames();
+        java.util.Enumeration<String> names = req.getParameterNames();//getParameterNames()は既存メソッドでnameラベルのものを全取得
         while (names.hasMoreElements()) {
             String name = names.nextElement();
 
@@ -83,7 +83,7 @@ public class TestRegistExecuteAction extends Action {
         }
 
         req.setAttribute("message", "登録が完了しました。");
-        req.setAttribute("f1", entYearStr);
+        req.setAttribute("f1", entYearStr);//検索条件の保持
         req.setAttribute("f2", classNum);
         req.setAttribute("f3", subjectCd);
         req.setAttribute("f4", num);

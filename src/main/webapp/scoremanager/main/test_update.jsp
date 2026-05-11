@@ -11,8 +11,8 @@
 				    <%-- 検索状態の維持 --%>
 				    <input type="hidden" name="f1" value="${f1}">
 				    <input type="hidden" name="f2" value="${f2}">
-				    <input type="hidden" name="subject_cd" value="${f3}">
-				    <input type="hidden" name="no" value="${f4}">
+				    <input type="hidden" name="f3" value="${f3}">
+				    <input type="hidden" name="f4" value="${f4}">
 				    <input type="hidden" name="class_num" value="${test.classNum}">			    
 				    <input type="hidden" name="student_no" value="${test.student.studentNo}">
 

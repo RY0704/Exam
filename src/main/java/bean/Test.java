@@ -61,4 +61,19 @@ public class Test {
 	public void setClassNum(String classNum) {
 		this.classNum = classNum;
 	}
+	private Student student;
+
+	/**
+	 * 学生情報を設定する
+	 */
+	public void setStudent(Student student) {
+	    this.student = student;
+	}
+
+	/**
+	 * 学生情報を取得する
+	 */
+	public Student getStudent() {
+	    return student;
+	}
 }

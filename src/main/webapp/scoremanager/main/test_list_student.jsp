@@ -8,7 +8,7 @@
     <section class="me-4">
         <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">成績一覧(学生)</h2>
 
-        <form action="TestListStudentExecuteAction.action" method="get">
+        <form action="TestListStudentExecute.action" method="get">
             <input type="hidden" id="search-mode" name="f" value="">
             <div class="container-fluid border rounded p-2">
                 <%-- 科目情報エリア --%>

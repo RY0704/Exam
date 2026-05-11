@@ -16,9 +16,9 @@ public class TestListStudentDao extends Dao {
      * 修正ポイント：成績一覧を取得するためのSQL（学生、科目、テストを結合）
      */
     private String baseSql = 
-        "SELECT s.name AS subject_name, s.cd AS subject_cd, t.num, t.point " +
+        "SELECT s.subject_name AS subject_name, s.subject_cd AS subject_cd, t.no, t.point " +
         "FROM test t " +
-        "JOIN subject s ON t.subject_cd = s.cd AND t.school_cd = s.school_cd " +
+        "JOIN subject s ON t.subject_cd = s.subject_cd AND t.school_cd = s.school_cd " +
         "WHERE t.student_no = ? AND t.school_cd = ?";
 
     /**
@@ -33,7 +33,7 @@ public class TestListStudentDao extends Dao {
                 
                 item.setSubjectName(resultSet.getString("subject_name"));
                 item.setSubjectCd(resultSet.getString("subject_cd"));
-                item.setNum(resultSet.getInt("num"));
+                item.setNum(resultSet.getInt("no"));
                 item.setPoint(resultSet.getInt("point"));
              
                 list.add(item); // 修正：宣言した変数itemを追加

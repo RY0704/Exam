@@ -6,13 +6,13 @@
 	<c:param name="title">
 		得点管理システム
 	</c:param>
-
+ 
 	<c:param name="content">
 		<div id="wrap_box">
 			<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2">成績情報変更</h2>
 			<div id="wrap_box">
 				<p class="text-center" style="background-color:#8cc3a9">変更が完了しました</p>
-
+ 
 				<br>
 				<br>
 				<br>
@@ -23,3 +23,5 @@
 		</div>
 	</c:param>
 </c:import>
+
+ 

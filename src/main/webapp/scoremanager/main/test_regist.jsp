@@ -50,20 +50,20 @@
                     </div>
                 </div>
             </form>
-
+ 
             <%-- 成績一覧・入力用フォーム --%>
             <c:if test="${not empty tests}">
                 <div class="mb-3">
                     科目コード：${f3} （${f4}回目）
                 </div>
-
+ 
              
                 <form action="TestRegistExecute.action" method="post">
                     <input type="hidden" name="f1" value="${f1}">
                     <input type="hidden" name="f2" value="${f2}">
                     <input type="hidden" name="f3" value="${f3}">
                     <input type="hidden" name="f4" value="${f4}">
-
+ 
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -82,8 +82,8 @@
                                     <td>${t.student.studentNo}</td>
                                     <td>${t.student.studentName}</td>
                                     <td>
-                                        <input type="number" name="point_${t.student.studentNo}" 
-                                               value="${t.point}" class="form-control" 
+                                        <input type="number" name="point_${t.student.studentNo}"
+                                               value="${t.point}" class="form-control"
                                                style="width: 100px;">
                                         <c:forEach var="errNo" items="${errorStudentNos}">
 									        <c:if test="${errNo == t.student.studentNo}">
@@ -94,16 +94,22 @@
 									    </c:forEach>
                                     </td>
                                     <td>
-                                    	<a href="TestUpdate.action?stNum=${t.student.studentNo}&cd=${t.subjectCd}&no=${t.no}&f1=${f1}&f2=${f2}&f3=${f3}&f4=${f4}&f=${f}" 
+                                    	<a href="TestUpdate.action?stNum=${t.student.studentNo}&cd=${t.subjectCd}&no=${t.no}&f1=${f1}&f2=${f2}&f3=${f3}&f4=${f4}&f=${f}"
 				                           class="btn btn-outline-primary btn-sm">
 				                            変更
+				                        </a>
+                                    </td>
+                                    <td>
+                                    	<a href="TestDelete.action?stNum=${t.student.studentNo}&cd=${t.subjectCd}&no=${t.no}&f1=${f1}&f2=${f2}&f3=${f3}&f4=${f4}&f=${f}"
+				                           class="btn btn-outline-primary btn-sm">
+				                           削除
 				                        </a>
                                     </td>
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
-
+ 
                     <div class="mt-3">
                         <button type="submit" class="btn btn-primary">登録して終了</button>
                     </div>
@@ -119,3 +125,4 @@
         </section>
     </c:param>
 </c:import>
+ 

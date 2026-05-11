@@ -99,6 +99,12 @@
 				                            変更
 				                        </a>
                                     </td>
+                                    <td>
+                                    	<a href="TestDelete.action?stNum=${t.student.studentNo}&cd=${t.subjectCd}&no=${t.no}&f1=${f1}&f2=${f2}&f3=${f3}&f4=${f4}&f=${f}"
+				                           class="btn btn-outline-primary btn-sm">
+				                           削除
+				                        </a>
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </tbody>

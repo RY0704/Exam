@@ -22,8 +22,8 @@ public class SubjectUpdateExecuteAction extends Action {
         String name = req.getParameter("name");
 
         // 2. 科目(Subject) Beanの作成と値のセット
-        Subject subject = new Subject(); 
-        subject.setSubjectCd(cd);               
+        Subject subject = new Subject(); // Student ではなく Subject
+        subject.setSubjectCd(cd);               // メソッド名は Bean の定義に合わせてください
         subject.setSubjectName(name);
         subject.setSchool(teacher.getSchool());
 

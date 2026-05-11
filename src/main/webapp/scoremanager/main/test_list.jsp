@@ -13,8 +13,8 @@
     <section class="me-4">
         <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">成績参照</h2>
  
-        <%-- 全体を囲むフォーム --%>
-        <form action="TestList.action" method="get">
+        <%-- id="search-form" を追加、actionは空にしておきます --%>
+        <form id="search-form" action="" method="get">
             <input type="hidden" id="search-mode" name="f" value="">
             <div class="container-fluid border rounded p-2">
                 
@@ -53,11 +53,11 @@
                             </c:forEach>
                         </select>
                     </div>
-                    <%-- 検索ボタン --%>
+                    <%-- 科目検索ボタン --%>
                     <div class="col-2">
-                        <%-- onclickでhiddenの値を 'sj' に書き換えて送信 --%>
-                        <button type="submit" class="btn btn-secondary w-75"
-                                onclick="document.getElementById('search-mode').value='sj'">検索</button>
+                        <%-- submitForm関数を呼び出し --%>
+                        <button type="button" class="btn btn-secondary w-75"
+                                onclick="submitForm('sj')">検索</button>
                     </div>
                 </div>
  
@@ -73,10 +73,11 @@
                         <input class="form-control" type="text" name="f4" value="${f4}"
                                maxlength="10" placeholder="学生番号を入力してください">
                     </div>
+                    <%-- 学生検索ボタン --%>
                     <div class="col-2">
-                        <%-- onclickでhiddenの値を 'st' に書き換えて送信 --%>
-                        <button type="submit" class="btn btn-secondary w-75"
-                                onclick="document.getElementById('search-mode').value='st'">検索</button>
+                        <%-- submitForm関数を呼び出し --%>
+                        <button type="button" class="btn btn-secondary w-75"
+                                onclick="submitForm('st')">検索</button>
                     </div>
                 </div>
  
@@ -87,8 +88,26 @@
                 科目情報を選択または学生情報を入力して検索ボタンをクリックしてください
             </div>
         </form>
+
+        <%-- 送信先を切り替えるスクリプト --%>
+        <script>
+            function submitForm(mode) {
+                var form = document.getElementById('search-form');
+                var searchMode = document.getElementById('search-mode');
+                
+                searchMode.value = mode; // 'sj' または 'st' をセット
+                
+                if (mode === 'sj') {
+                    // 科目検索用のActionへ
+                    form.action = "TestListSubjectExecute.action";
+                } else if (mode === 'st') {
+                    // 学生検索用のActionへ（作成済みのクラス名に合わせる）
+                    form.action = "TestListStudentExecute.action";
+                }
+                
+                form.submit(); // フォームを送信
+            }
+        </script>
     </section>
     </c:param>
 </c:import>
- 
- 

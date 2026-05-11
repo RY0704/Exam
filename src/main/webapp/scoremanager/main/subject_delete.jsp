@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-<%-- 
+ 
+<%--
   1. c:import を使ってベースデザイン(base.jsp)を読み込みます。
      これにより、CSSやヘッダー・サイドメニューが自動的に適用されます。
 --%>
 <c:import url="/common/base.jsp">
     <c:param name="title">得点管理システム</c:param>
-
+ 
     <c:param name="content">
         <section class="me-4">
             <%-- 2. 画面タイトル (h2) --%>
@@ -17,7 +17,7 @@
             <div class="my-3">
                 <p>「${subject.subjectName}(${subject.subjectCd})」を削除してもよろしいですか？</p>
             </div>
-
+ 
             <%-- 4. 削除実行用のフォーム --%>
             <form action="SubjectDeleteExecute.action" method="post">
                 <%-- 画面設計書(No.5, 6)に基づき、hidden属性でコードと名前を送付 --%>
@@ -29,7 +29,7 @@
                     <input type="submit" class="btn btn-danger" value="削除">
                 </div>
             </form>
-
+ 
             <%-- 5. 戻るリンク (No.4) --%>
             <div class="mt-3">
                 <a href="SubjectList.action">戻る</a>
@@ -37,4 +37,5 @@
         </section>
     </c:param>
 </c:import>
-
+ 
+ 

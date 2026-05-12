@@ -7,6 +7,7 @@
             <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">成績一覧（科目）</h2>
             
             <div class="card p-4 mb-4 shadow-sm">
+                <%-- ① 科目情報検索フォーム --%>
                 <form action="TestListSubjectExecute.action" method="get" class="row g-3 align-items-end mb-3 border-bottom pb-3">
                     <div class="col-auto">
                         <small class="text-muted d-block">科目情報</small>
@@ -34,7 +35,7 @@
                         <select name="f3" class="form-select">
                             <option value="0">--------</option>
                             <c:forEach var="sub" items="${subjects}">
-                                <option value="${sub.cd}" <c:if test="${sub.cd == f3}">selected</c:if>>${sub.name}</option>
+                                <option value="${sub.subjectCd}" <c:if test="${sub.subjectCd == f3}">selected</c:if>>${sub.subjectName}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -43,8 +44,24 @@
                         <button type="submit" class="btn btn-secondary">検索</button>
                     </div>
                 </form>
+
+                <%-- ② 学生情報検索フォーム（追加部分） --%>
+                <form action="TestListStudentExecute.action" method="get" class="row g-3 align-items-end">
+                    <div class="col-auto">
+                        <small class="text-muted d-block">学生情報</small>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">学生番号</label>
+                        <input type="text" name="f4" class="form-control" placeholder="学生番号を入力してください" value="${f4}">
+                    </div>
+                    <input type="hidden" name="f" value="st">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-secondary">検索</button>
+                    </div>
+                </form>
             </div>
  
+            <%-- 科目検索結果の表示エリア --%>
             <c:if test="${not empty tests}">
                 <div class="mt-4">
                     <h5 class="mb-3">科目：${selected_subject_name}</h5>
@@ -66,23 +83,15 @@
                                     <td>${test.classNum}</td>
                                     <td>${test.studentNo}</td>
                                     <td>${test.studentName}</td>
-                                    <%-- 
-                                        重要：[1] ではなく .point1 と書くことで 
-                                        Java側の getPoint1() メソッドを確実に呼び出します 
-                                    --%>
                                     <td>
                                         <c:choose>
-                                            <c:when test="${not empty test.point1}">
-                                                ${test.point1}
-                                            </c:when>
+                                            <c:when test="${not empty test.point1}">${test.point1}</c:when>
                                             <c:otherwise>-</c:otherwise>
                                         </c:choose>
                                     </td>
                                     <td>
                                         <c:choose>
-                                            <c:when test="${not empty test.point2}">
-                                                ${test.point2}
-                                            </c:when>
+                                            <c:when test="${not empty test.point2}">${test.point2}</c:when>
                                             <c:otherwise>-</c:otherwise>
                                         </c:choose>
                                     </td>
@@ -92,8 +101,10 @@
                     </table>
                 </div>
             </c:if>
-            <c:if test="${empty tests && not empty f1}">
-                <p>学生情報が存在しませんでした。</p>
+            
+            <%-- 検索結果が空の場合 --%>
+            <c:if test="${empty tests && not empty f1 && f1 != 0}">
+                <p class="mt-3">学生情報が存在しませんでした。</p>
             </c:if>
         </section>
     </c:param>

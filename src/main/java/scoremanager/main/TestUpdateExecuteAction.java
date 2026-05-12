@@ -23,19 +23,13 @@ public class TestUpdateExecuteAction extends Action {
         Teacher teacher = (Teacher) session.getAttribute("user");
  
         School school = teacher.getSchool();
-
-        // --- 1. パラメータの取得 (JSPのname属性と完全に一致させる) ---
  
         String studentNo = req.getParameter("student_no");
  
         String pointStr = req.getParameter("point");
  
         String classNum = req.getParameter("class_num");
- 
-
-
-        // 検索保持用のパラメータ (f1, f2)
- 
+  
         String f1 = req.getParameter("f1");
  
         String f2 = req.getParameter("f2");
@@ -44,7 +38,6 @@ public class TestUpdateExecuteAction extends Action {
  
         String f4 = req.getParameter("f4");
  
-        // --- 2. 数値への変換 ---
  
         int num = 0;
  
@@ -65,15 +58,13 @@ public class TestUpdateExecuteAction extends Action {
             return;
  
         }
-
-        // --- 3. Beanの作成 ---
  
         Test test = new Test();
  
         test.setStudentNo(studentNo);
  
-        test.setSubjectCd(f3); // ここで取得した値を入れる (nullにならない)
- 
+        test.setSubjectCd(f3); 
+        
         test.setNo(num);      
  
         test.setPoint(point);
@@ -81,8 +72,6 @@ public class TestUpdateExecuteAction extends Action {
         test.setClassNum(classNum);
  
         test.setSchool(school);
-
-        // --- 4. DB保存 ---
  
         TestDao tDao = new TestDao();
  
@@ -92,10 +81,6 @@ public class TestUpdateExecuteAction extends Action {
  
         tDao.save(testList);
 
-        // --- 5. 完了画面へのバトンタッチ ---
- 
-        // 完了画面のリンクで使うために、あえて名前を f3, f4 に詰め替えてセット
- 
         req.setAttribute("f1", f1);
  
         req.setAttribute("f2", f2);

@@ -15,23 +15,17 @@ public class SubjectUpdateExecuteAction extends Action {
 
         HttpSession session = req.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
-
-        // 1. リクエストパラメータから更新データを受け取る
-        // JSPの <input name="cd"> と <input name="name"> に対応します
         String cd = req.getParameter("cd");
         String name = req.getParameter("name");
 
-        // 2. 科目(Subject) Beanの作成と値のセット
-        Subject subject = new Subject(); // Student ではなく Subject
-        subject.setSubjectCd(cd);               // メソッド名は Bean の定義に合わせてください
+        Subject subject = new Subject(); 
+        subject.setSubjectCd(cd);               
         subject.setSubjectName(name);
         subject.setSchool(teacher.getSchool());
 
-        // 3. DAOを使ってDBに保存（更新）
         SubjectDao subjectDao = new SubjectDao();
-        subjectDao.save(subject); // subjectDao の save メソッドを呼び出す
+        subjectDao.save(subject); 
 
-        // 4. 完了画面へ遷移
         req.getRequestDispatcher("subject_update_done.jsp").forward(req, res);
     }
 }

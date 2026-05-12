@@ -16,17 +16,16 @@ import bean.TestListSubject;
 public class TestListSubjectDao extends Dao {
 
     /**
-     * クラス図の指定: baseSql
-     * 科目別成績一覧を取得するSQL（学生テーブルとテストテーブルを結合）
+     * 科目別成績一覧を取得するSQL
+     * エラーログに基づき st.no -> st.student_no, st.name -> st.student_name に修正
      */
     private String baseSql = 
-        "SELECT st.ent_year, st.class_num, st.no AS student_no, st.name AS student_name, t.no, t.point " +
+        "SELECT st.ent_year, st.class_num, st.student_no AS student_no, st.student_name AS student_name, t.no, t.point " +
         "FROM student st " +
-        "JOIN test t ON st.no = t.student_no " +
+        "JOIN test t ON st.student_no = t.student_no " +
         "WHERE st.ent_year = ? AND st.class_num = ? AND t.subject_cd = ? AND st.school_cd = ?";
 
     /**
-     * クラス図の指定: postFilter
      * ResultSetからTestListSubjectリストへの変換処理
      */
     private List<TestListSubject> postFilter(ResultSet rSet) throws Exception {
@@ -39,7 +38,7 @@ public class TestListSubjectDao extends Dao {
                 TestListSubject item;
 
                 if (map.containsKey(studentNo)) {
-                    // すでにマップにある（2回目以降の点数の）場合、既存のBeanを取り出す
+                    // すでにマップにある場合、既存のBeanを取り出す
                     item = map.get(studentNo);
                 } else {
                     // 初めて登場する学生の場合、新しくBeanを作る
@@ -69,7 +68,6 @@ public class TestListSubjectDao extends Dao {
     }
 
     /**
-     * クラス図の指定: filter
      * 入学年度、クラス、科目、学校を条件に成績一覧を取得する
      */
     public List<TestListSubject> filter(int entYear, String classNum, Subject subject, School school) throws Exception {
@@ -83,11 +81,11 @@ public class TestListSubjectDao extends Dao {
             // 引数の順番通りに値をセット
             statement.setInt(1, entYear);
             statement.setString(2, classNum);
-            statement.setString(3, subject.getSubjectCd()); // Subject Beanのコード取得メソッド
-            statement.setString(4, school.getSchoolCd());  // School Beanのコード取得メソッド
+            statement.setString(3, subject.getSubjectCd());
+            statement.setString(4, school.getSchoolCd());
 
             rSet = statement.executeQuery();
-            // クラス図の通り postFilter を呼び出し
+            // postFilter を呼び出してリスト化
             list = postFilter(rSet);
 
         } catch (Exception e) {

@@ -38,6 +38,6 @@ public class TestListSubjectExecuteAction extends Action {
 
         // 【修正】正しいJSPファイル名へフォワード
         req.getRequestDispatcher("test_list_subject.jsp").forward(req, res);
-        req.getRequestDispatcher("test_list.jsp").forward(req, res);
+        //req.getRequestDispatcher("test_list.jsp").forward(req, res);
     }
 }

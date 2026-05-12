@@ -40,7 +40,7 @@ public class TestListStudentExecuteAction extends Action {
                 
                 req.setAttribute("f4", studentNo);     // 入力値の保持
             } else {
-                req.setAttribute("errors","成績情報が存在しませんでした");
+                req.setAttribute("errors","成績情報が存在しませんでした"); // エラー処理
             }
         }
 

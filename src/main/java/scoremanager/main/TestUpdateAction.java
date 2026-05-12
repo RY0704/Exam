@@ -53,11 +53,9 @@ public class TestUpdateAction extends Action {
 
         TestDao tDao = new TestDao();
  
-        // DAOで1件取得
  
         Test test = tDao.get(student, subject, school, num);
  
-        // JSPへ渡す
  
         req.setAttribute("test", test);
  

@@ -26,49 +26,77 @@ public class TestListStudentExecuteAction extends Action {
         HttpSession session = req.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
 
+        // パラメータ取得
         String entYearStr = req.getParameter("f1");
         String classNum = req.getParameter("f2");
         String subjectCd = req.getParameter("f3");
         String studentNo = req.getParameter("f4");
-        String mode = req.getParameter("f");
+        String mode = req.getParameter("f"); // ボタン判定用
 
+        // DAOのインスタンス化
         StudentDao sDao = new StudentDao();
         SubjectDao subDao = new SubjectDao();
         ClassNumDao cDao = new ClassNumDao();
         TestListStudentDao tlStudentDao = new TestListStudentDao();
         TestDao tDao = new TestDao();
 
+        // 遷移先の初期値
         String done = "test_list_student.jsp";
 
+        // --- 検索処理の振り分け ---
         if ("st".equals(mode) && studentNo != null && !studentNo.isEmpty()) {
+            // 【学生番号検索】
             Student student = sDao.get(studentNo);
             if (student != null) {
                 List<TestListStudent> tests = tlStudentDao.filter(student);
+
+                // ★ セッションに学生情報を保存
+                session.setAttribute("student", student);
+                session.setAttribute("tests", tests);
+
                 req.setAttribute("student", student);
                 req.setAttribute("tests", tests);
             } else {
                 req.setAttribute("errors", "学生情報が存在しませんでした");
+
+                // ★ セッションの学生情報をクリア
+                session.removeAttribute("student");
+                session.removeAttribute("tests");
             }
+            done = "test_list_student.jsp";
+
         } else if ("sj".equals(mode)) {
-            if (entYearStr != null && !entYearStr.equals("0") && 
-                classNum != null && !classNum.equals("0") && 
+            // 【科目情報検索】
+
+            // ★ セッションの学生情報をクリア（ここが重要）
+            session.removeAttribute("student");
+            session.removeAttribute("tests");
+
+            // ★ JSP の学生番号欄を空にする
+            studentNo = "";
+            req.setAttribute("student", null);
+            req.setAttribute("tests", null);
+
+            if (entYearStr != null && !entYearStr.equals("0") &&
+                classNum != null && !classNum.equals("0") &&
                 subjectCd != null && !subjectCd.equals("0")) {
-                
+
                 int entYear = Integer.parseInt(entYearStr);
                 Subject subject = subDao.get(subjectCd, teacher.getSchool());
-                
-                // ★エラー回避：戻り値が List<Test> の場合は、受け取り側もそれに合わせます
+
                 List<Test> results = tDao.filter(entYear, classNum, subject, 0, teacher.getSchool());
-                
+
                 req.setAttribute("tests_subject", results);
                 req.setAttribute("selected_subject", subject);
-                done = "test_list_subject.jsp"; 
+
+                done = "test_list_subject.jsp";
             } else {
                 req.setAttribute("errors", "入学年度、クラス、科目を選択してください");
+                done = "test_list_student.jsp";
             }
         }
 
-        // 共通データ準備
+        // --- 共通データの準備（プルダウン用） ---
         List<String> class_list = cDao.filter(teacher.getSchool());
         List<Subject> subject_list = subDao.filter(teacher.getSchool());
         List<Integer> ent_year_list = new ArrayList<>();
@@ -77,14 +105,16 @@ public class TestListStudentExecuteAction extends Action {
             ent_year_list.add(i);
         }
 
+        // JSPへ渡す属性をセット
         req.setAttribute("ent_year_set", ent_year_list);
         req.setAttribute("class_num_set", class_list);
         req.setAttribute("subjects", subject_list);
         req.setAttribute("f1", entYearStr);
         req.setAttribute("f2", classNum);
         req.setAttribute("f3", subjectCd);
-        req.setAttribute("f4", studentNo);
+        req.setAttribute("f4", studentNo); // 科目検索時は空文字列が入る
 
+        // フォワード実行
         req.getRequestDispatcher(done).forward(req, res);
     }
 }

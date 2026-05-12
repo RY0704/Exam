@@ -71,7 +71,7 @@
                     <div class="col-4">
                         <label class="form-label">学生番号</label>
                         <input class="form-control" type="text" id="student-no-input" name="f4" value="${f4}"
-                               maxlength="10" placeholder="学生番号を入力してください">
+                               maxlength="10" placeholder="学生番号を入力してください" required>
                     </div>
                     <%-- 学生検索ボタン --%>
                     <div class="col-2">

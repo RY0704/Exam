@@ -29,7 +29,7 @@ public class TestListSubjectExecuteAction extends Action {
         List<TestListSubject> tests = dao.filter(entYear, classNum, subject, teacher.getSchool());
 
         // JSPに値をセット
-        req.setAttribute("tests", tests)
+        req.setAttribute("tests", tests);
         req.setAttribute("tests", tests); 
         req.setAttribute("f1", entYear);
         req.setAttribute("f2", classNum);

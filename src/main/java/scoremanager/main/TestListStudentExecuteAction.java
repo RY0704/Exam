@@ -49,47 +49,37 @@ public class TestListStudentExecuteAction extends Action {
             Student student = sDao.get(studentNo);
             if (student != null) {
                 List<TestListStudent> tests = tlStudentDao.filter(student);
-
-                // ★ セッションに学生情報を保存
-                session.setAttribute("student", student);
-                session.setAttribute("tests", tests);
-
                 req.setAttribute("student", student);
                 req.setAttribute("tests", tests);
             } else {
                 req.setAttribute("errors", "学生情報が存在しませんでした");
-
-                // ★ セッションの学生情報をクリア
-                session.removeAttribute("student");
-                session.removeAttribute("tests");
             }
             done = "test_list_student.jsp";
 
         } else if ("sj".equals(mode)) {
             // 【科目情報検索】
+            
+            // ★ 学生情報の保持をやめる（クリア処理）
+            studentNo = ""; 
+            req.removeAttribute("student");
+            req.removeAttribute("tests");
 
-            // ★ セッションの学生情報をクリア（ここが重要）
-            session.removeAttribute("student");
-            session.removeAttribute("tests");
-
-            // ★ JSP の学生番号欄を空にする
-            studentNo = "";
-            req.setAttribute("student", null);
-            req.setAttribute("tests", null);
-
-            if (entYearStr != null && !entYearStr.equals("0") &&
-                classNum != null && !classNum.equals("0") &&
+            if (entYearStr != null && !entYearStr.equals("0") && 
+                classNum != null && !classNum.equals("0") && 
                 subjectCd != null && !subjectCd.equals("0")) {
-
+                
                 int entYear = Integer.parseInt(entYearStr);
+                // DAOの定義に合わせて引数を渡す
                 Subject subject = subDao.get(subjectCd, teacher.getSchool());
-
+                
+                // テスト一覧を取得（List<Test>で受け取る）
                 List<Test> results = tDao.filter(entYear, classNum, subject, 0, teacher.getSchool());
-
+                
                 req.setAttribute("tests_subject", results);
                 req.setAttribute("selected_subject", subject);
-
-                done = "test_list_subject.jsp";
+                
+                // ★ 科目別のJSPへ遷移
+                done = "test_list_subject.jsp"; 
             } else {
                 req.setAttribute("errors", "入学年度、クラス、科目を選択してください");
                 done = "test_list_student.jsp";

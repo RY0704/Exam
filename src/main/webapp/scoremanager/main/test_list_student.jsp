@@ -62,14 +62,15 @@
             </div>
         </form>
 
-        <%-- 1: 氏名の表示 --%>
-        <c:if test="${not empty tests}">
+        <%-- 1: 氏名の表示 (Actionから渡された student オブジェクトを使用) --%>
+        <c:if test="${not empty student}">
             <div class="mt-4 mb-2">
-                <%-- 学生氏名とかっこ書きした学生番号を表示 --%>
-                <h3 class="h5 fw-bold">${tests[0].studentName}（${tests[0].studentNo}）</h3>
+                <h3 class="h5 fw-bold">${student.studentName}（${student.studentNo}）</h3>
             </div>
+        </c:if>
 
-            <%-- 2: 成績一覧テーブル --%>
+        <%-- 2: 成績一覧テーブル --%>
+        <c:if test="${not empty tests}">
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -82,15 +83,20 @@
                 <tbody>
                     <c:forEach var="t" items="${tests}">
                         <tr>
-                            <%-- Beanのプロパティ名を指定 --%>
                             <td>${t.subjectName}</td>
                             <td>${t.subjectCd}</td>
-                            <td>${t.no}</td>
+                            <%-- Beanのプロパティ名 num に合わせる --%>
+                            <td>${t.num}</td>
                             <td>${t.point}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
+        </c:if>
+
+        <%-- エラーメッセージ表示 --%>
+        <c:if test="${not empty errors}">
+            <div class="alert alert-danger mt-3">${errors}</div>
         </c:if>
 
         <div class="mt-3 text-info small">

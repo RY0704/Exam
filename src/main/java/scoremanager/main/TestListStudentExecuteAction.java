@@ -16,44 +16,35 @@ public class TestListStudentExecuteAction extends Action {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-        // 1. セッションからログインユーザー情報を取得（学校コード特定のため）
         HttpSession session = req.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
 
-        // 2. リクエストパラメータの取得
         String studentNo = req.getParameter("f4"); // 学生番号
-        String mode = req.getParameter("f");       // 検索モード ("st")
+        String mode = req.getParameter("f");       // 検索モード
 
-        // 3. DAOの準備
         StudentDao sDao = new StudentDao();
         TestListStudentDao tlStudentDao = new TestListStudentDao();
 
-        // 4. 学生検索ロジック
+        // 学生検索（modeが"st"の場合）
         if ("st".equals(mode) && studentNo != null && !studentNo.isEmpty()) {
-            
-            // 学生番号が存在するかチェック
+            // 1. まず学生情報を取得
             Student student = sDao.get(studentNo);
 
             if (student != null) {
-                // 【重要】DAOを使って、特定の学生の成績一覧を取得
-                // 内部で testテーブルを検索し、List<TestListStudent> を作成して戻す
+                // 2. その学生の成績リストを取得
                 List<TestListStudent> tests = tlStudentDao.filter(student);
 
-                // JSPの <c:forEach items="${tests}"> に渡すデータをセット
-                req.setAttribute("tests", tests);
+                // 3. 【重要】JSPへ「成績リスト」と「学生情報」を別々に渡す
+                req.setAttribute("tests", tests);      // 成績一覧（設計書通りのBean）
+                req.setAttribute("student", student);  // 学生の名前を表示するために必要
                 
-                // 検索した学生番号をJSPの入力欄に戻すためにセット
-                req.setAttribute("f4", studentNo);
+                req.setAttribute("f4", studentNo);     // 入力値の保持
             } else {
-                // 学生が見つからない場合のエラー処理
-                req.setAttribute("errors", "学生情報が見つかりませんでした。");
+                req.setAttribute("errors","成績情報が存在しませんでした");
             }
         }
 
-        // 5. 表示用データの再セット（入学年度やクラスなどのプルダウンを維持する場合）
-        // ※ここでは省略していますが、必要に応じて科目リストなどを再度セットしてください
-
-        // 6. 結果表示用JSP（test_list_student.jsp）へフォワード
+        // JSPへフォワード
         req.getRequestDispatcher("test_list_student.jsp").forward(req, res);
     }
 }

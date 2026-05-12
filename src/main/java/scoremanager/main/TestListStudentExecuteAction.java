@@ -34,13 +34,13 @@ public class TestListStudentExecuteAction extends Action {
                 // 2. その学生の成績リストを取得
                 List<TestListStudent> tests = tlStudentDao.filter(student);
 
-                // 3. 【重要】JSPへ「成績リスト」と「学生情報」を別々に渡す
-                req.setAttribute("tests", tests);      // 成績一覧（設計書通りのBean）
-                req.setAttribute("student", student);  // 学生の名前を表示するために必要
-                
-                req.setAttribute("f4", studentNo);     // 入力値の保持
+                // 3. JSPへデータを渡す
+                req.setAttribute("student", student);  // 名前表示用
+                req.setAttribute("tests", tests);      // 成績一覧（空リストでも渡す）
+                req.setAttribute("f4", studentNo);     // 入力値保持
             } else {
-                req.setAttribute("errors","成績情報が存在しませんでした"); // エラー処理
+                // 学生そのものが見つからない場合のみ、errorsにセットする
+                req.setAttribute("errors", "学生情報が存在しませんでした");
             }
         }
 

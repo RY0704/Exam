@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <c:import url="/common/base.jsp" >
-    <c:param name="title">得点管理システムあ</c:param>
+    <c:param name="title">得点管理システム</c:param>
 
     <c:param name="content">
     <section class="me-4">
@@ -11,7 +11,7 @@
         <form action="TestListStudentExecute.action" method="get">
             <input type="hidden" id="search-mode" name="f" value="">
             <div class="container-fluid border rounded p-2">
-                <%-- 科目情報エリア --%>
+                <%-- 科目情報エリア（省略せずそのまま） --%>
                 <div class="row align-items-end mb-3">
                     <div class="col-md-2"><p class="fw-bold m-2 mt-1">科目情報</p></div>
                     <div class="col-2">
@@ -53,7 +53,7 @@
                     <div class="col-md-2"><p class="fw-bold m-2 mt-1">学生情報</p></div>
                     <div class="col-4">
                         <label class="form-label">学生番号</label>
-                        <input class="form-control" type="text" name="f4" value="${f4}" maxlength="10" placeholder="学生番号を入力してください">
+                        <input class="form-control" type="text" name="f4" value="${f4}" maxlength="10" placeholder="学生番号を入力してください" required>
                     </div>
                     <div class="col-2">
                         <button type="submit" class="btn btn-secondary w-75" onclick="document.getElementById('search-mode').value='st'">検索</button>
@@ -62,46 +62,51 @@
             </div>
         </form>
 
-        <%-- 1: 氏名の表示 (Actionから渡された student オブジェクトを使用) --%>
+        <%-- ★ 修正箇所：学生が見つかった場合の表示エリア --%>
         <c:if test="${not empty student}">
-            <div class="mt-4 mb-2">
-                <h3 class="h5 fw-bold">${student.studentName}（${student.studentNo}）</h3>
+            <div class="mt-4">
+                <%-- ① 氏名と番号を横並びで表示 --%>
+                <div>
+                    氏名：${student.studentName} (${student.studentNo})
+                </div>
+
+                <%-- ② 成績の有無による分岐（必ず c:choose を使う） --%>
+                <c:choose>
+                    <c:when test="${not empty tests}">
+                        <%-- 成績がある場合はテーブルを表示 --%>
+                        <table class="table table-hover mt-2">
+                            <thead>
+                                <tr>
+                                    <th>科目名</th>
+                                    <th>科目コード</th>
+                                    <th>回数</th>
+                                    <th>点数</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="t" items="${tests}">
+                                    <tr>
+                                        <td>${t.subjectName}</td>
+                                        <td>${t.subjectCd}</td>
+                                        <td>${t.num}</td>
+                                        <td>${t.point}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:when>
+                    <c:otherwise>
+                        <%-- 成績がない場合：画像通りのメッセージを表示 --%>
+                        <div class="mt-2">成績情報が存在しませんでした</div>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </c:if>
 
-        <%-- 2: 成績一覧テーブル --%>
-        <c:if test="${not empty tests}">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>科目名</th>
-                        <th>科目コード</th>
-                        <th>回数</th>
-                        <th>点数</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="t" items="${tests}">
-                        <tr>
-                            <td>${t.subjectName}</td>
-                            <td>${t.subjectCd}</td>
-                            <%-- Beanのプロパティ名 num に合わせる --%>
-                            <td>${t.num}</td>
-                            <td>${t.point}</td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </c:if>
-
-        <%-- エラーメッセージ表示 --%>
+        <%-- 学生自体が見つからなかった場合などのエラー --%>
         <c:if test="${not empty errors}">
             <div class="alert alert-danger mt-3">${errors}</div>
         </c:if>
-
-        <div class="mt-3 text-info small">
-            科目情報を選択または学生情報を入力して検索ボタンをクリックしてください
-        </div>
     </section>
     </c:param>
 </c:import>

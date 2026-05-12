@@ -70,7 +70,7 @@
                     </div>
                     <div class="col-4">
                         <label class="form-label">学生番号</label>
-                        <input class="form-control" type="text" name="f4" value="${f4}"
+                        <input class="form-control" type="text" id="student-no-input" name="f4" value="${f4}"
                                maxlength="10" placeholder="学生番号を入力してください">
                     </div>
                     <%-- 学生検索ボタン --%>
@@ -89,19 +89,29 @@
             </div>
         </form>
 
-        <%-- 送信先を切り替えるスクリプト --%>
+        <%-- 送信先とバリデーションを制御するスクリプト --%>
         <script>
             function submitForm(mode) {
                 var form = document.getElementById('search-form');
                 var searchMode = document.getElementById('search-mode');
+                var studentInput = document.getElementById('student-no-input');
                 
                 searchMode.value = mode; // 'sj' または 'st' をセット
                 
                 if (mode === 'sj') {
-                    // 科目検索用のActionへ
+                    // --- 科目検索の場合 ---
+                    // 学生番号の必須チェックを外す
+                    studentInput.required = false;
                     form.action = "TestListSubjectExecute.action";
+                    
                 } else if (mode === 'st') {
-                    // 学生検索用のActionへ（作成済みのクラス名に合わせる）
+                    // --- 学生検索の場合 ---
+                    // 学生番号が空かどうかチェック
+                    if (!studentInput.value.trim()) {
+                        studentInput.required = true; // required属性を付与
+                        form.reportValidity();
+                        return;                       // 送信を中止
+                    }
                     form.action = "TestListStudentExecute.action";
                 }
                 

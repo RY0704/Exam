@@ -28,11 +28,16 @@ public class TestListSubjectExecuteAction extends Action {
         TestListSubjectDao dao = new TestListSubjectDao();
         List<TestListSubject> tests = dao.filter(entYear, classNum, subject, teacher.getSchool());
 
+        // JSPに値をセット
+        req.setAttribute("tests", tests);
         req.setAttribute("tests", tests); 
         req.setAttribute("f1", entYear);
         req.setAttribute("f2", classNum);
         req.setAttribute("f3", subjectCd);
+        req.setAttribute("selected_subject_name", subject.getSubjectName()); // 科目名をJSPで表示するために追加
 
+        // 【修正】正しいJSPファイル名へフォワード
+        req.getRequestDispatcher("test_list_subject.jsp").forward(req, res);
         req.getRequestDispatcher("test_list.jsp").forward(req, res);
     }
 }

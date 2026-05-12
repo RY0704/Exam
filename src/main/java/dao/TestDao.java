@@ -19,7 +19,7 @@ public class TestDao extends Dao {
         PreparedStatement statement = null;
 
         try {
-            // 列名を student_no と student_name に合わせて修正
+            // 【修正】student_no と student_name に統一
             String sql = "select t.*, s.student_name, s.ent_year from test t " +
                          "join student s on t.student_no = s.student_no and t.school_cd = s.school_cd " +
                          "where t.student_no=? and t.subject_cd=? and t.school_cd=? and t.no=?";
@@ -48,8 +48,9 @@ public class TestDao extends Dao {
         PreparedStatement statement = null;
 
         try {
-            // 【修正】s.name を s.student_name に変更しました
-            String sql = "select s.student_no as student_no, s.student_name as student_name, s.ent_year, " +
+            // 【重要修正】s.name -> s.student_name, s.cd -> s.student_no
+            // また、t.student_no が null の場合を考慮した select 句にしています
+            String sql = "select s.student_no, s.student_name, s.ent_year, " +
                          "t.subject_cd, t.no, t.point, s.class_num " +
                          "from student s " +
                          "left outer join test t on s.student_no = t.student_no " +
@@ -79,6 +80,7 @@ public class TestDao extends Dao {
         List<Test> list = new ArrayList<>();
         while (rSet.next()) {
             Test test = new Test();
+            // 【修正】DBの列名 student_no から取得
             test.setStudentNo(rSet.getString("student_no"));
             test.setSubjectCd(rSet.getString("subject_cd"));
             test.setNo(rSet.getInt("no"));
@@ -88,7 +90,7 @@ public class TestDao extends Dao {
 
             Student student = new Student();
             student.setStudentNo(rSet.getString("student_no"));
-            student.setStudentName(rSet.getString("student_name"));
+            student.setStudentName(rSet.getString("student_name")); // 【修正】
             student.setEntYear(rSet.getInt("ent_year"));
             test.setStudent(student);
 
@@ -101,6 +103,7 @@ public class TestDao extends Dao {
         Connection connection = getConnection();
         boolean result = true;
         try {
+            // 複数の更新をひとまとめにする（トランザクション）
             connection.setAutoCommit(false);
             for (Test test : list) {
                 if (!save(test, connection)) {
@@ -109,7 +112,7 @@ public class TestDao extends Dao {
                 }
             }
             if (result) {
-                connection.commit();
+                connection.commit(); // ここで確定
             } else {
                 connection.rollback();
             }
@@ -125,6 +128,7 @@ public class TestDao extends Dao {
     private boolean save(Test test, Connection connection) throws Exception {
         PreparedStatement statement = null;
         try {
+            // 【修正】key(student_no, ...) と列名を修正
             String sql = "merge into test (student_no, school_cd, subject_cd, no, point, class_num) " +
                          "key(student_no, school_cd, subject_cd, no) " +
                          "values(?, ?, ?, ?, ?, ?)";
@@ -149,6 +153,7 @@ public class TestDao extends Dao {
         PreparedStatement statement = null;
         int count = 0;
         try {
+            // 【修正】student_no に修正
             String sql = "delete from test where student_no=? and subject_cd=? and no=? and school_cd=?";
             statement = connection.prepareStatement(sql);
             statement.setString(1, test.getStudentNo());

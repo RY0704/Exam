@@ -74,5 +74,6 @@
 			</form>
 <%-- 以下、戻るリンクなど略 --%>			
 		</section>
+				<a href="StudentList.action">戻る</a>
 	</c:param>
 </c:import>

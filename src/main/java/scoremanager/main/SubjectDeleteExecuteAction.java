@@ -1,4 +1,6 @@
-package scoremanager.main; // あなたのEclipseでエラーが出ないパッケージ名
+package scoremanager.main;
+
+
 
 import bean.Subject;
 import bean.Teacher;
@@ -8,28 +10,52 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
+
+
 public class SubjectDeleteExecuteAction extends Action {
 
+
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        HttpSession session = request.getSession();
+
+    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+
+        // 1. セッションから教員情報を取得
+
+        HttpSession session = req.getSession();
+
         Teacher teacher = (Teacher) session.getAttribute("user");
 
-        // 1. パラメータから科目コードを取得
-        String cd = request.getParameter("cd");
+
+
+        // 2. subject_delete.jsp の hidden 項目から科目コードを取得
+
+        String subjectCd = req.getParameter("subject_cd");
+
+
+
+        // 3. 削除用の Subject Bean を作成して値をセット
+
+        Subject subject = new Subject();
+
+        subject.setSubjectCd(subjectCd);
+
+        subject.setSchool(teacher.getSchool());
+
+
+
+        // 4. DAO を使って削除を実行
 
         SubjectDao sDao = new SubjectDao();
 
-        // 2. DAOの get メソッドを使って、DBから既存の Subject オブジェクトを取得
-        // これにより、自分で setCd を呼ぶ必要がなくなります
-        Subject subject = sDao.get(cd, teacher.getSchool());
+        sDao.delete(subject); // ここで実際に DB から消えます
 
-        // 3. 取得したオブジェクトを削除メソッドに渡す
-        if (subject != null) {
-            sDao.delete(subject); 
-        }
 
-        // 4. 完了画面へ遷移
-        request.getRequestDispatcher("subject_delete_done.jsp").forward(request, response);
+
+        // 5. 削除完了画面 (subject_delete_done.jsp) へフォワード
+
+        req.getRequestDispatcher("subject_delete_done.jsp").forward(req, res);
+
     }
+
 }

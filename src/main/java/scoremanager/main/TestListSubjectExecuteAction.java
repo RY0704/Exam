@@ -22,8 +22,8 @@ public class TestListSubjectExecuteAction extends Action {
         HttpSession session = req.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
 
-        // リクエストパラメータを取得
-        int entYear = Integer.parseInt(req.getParameter("f1"));
+        // 1. まずは文字列として取得（未入力時のエラーを防ぐ）
+        String entYearStr = req.getParameter("f1");
         String classNum = req.getParameter("f2");
         String subjectCd = req.getParameter("f3");
 
@@ -32,11 +32,28 @@ public class TestListSubjectExecuteAction extends Action {
         ClassNumDao cDao = new ClassNumDao();
         TestListSubjectDao dao = new TestListSubjectDao();
 
-        // 検索に必要な情報を取得
-        Subject subject = sDao.get(subjectCd, teacher.getSchool());
-        List<TestListSubject> tests = dao.filter(entYear, classNum, subject, teacher.getSchool());
-        
-        // 再検索（プルダウン作成）のために必要なリストを再取得してセット
+        // 2. バリデーション（未入力チェック）
+        if (entYearStr == null || entYearStr.equals("0") || 
+            classNum == null || classNum.equals("0") || 
+            subjectCd == null || subjectCd.equals("0")) {
+            
+            // エラーメッセージをセット
+            req.setAttribute("errors", "入学年度とクラスと科目を選択してください");
+            
+        } else {
+            // すべて選択されている時だけ数値に変換して検索
+            int entYear = Integer.parseInt(entYearStr);
+            Subject subject = sDao.get(subjectCd, teacher.getSchool());
+            List<TestListSubject> tests = dao.filter(entYear, classNum, subject, teacher.getSchool());
+            
+            req.setAttribute("tests", tests);
+            
+            if (subject != null) {
+                req.setAttribute("selected_subject_name", subject.getSubjectName()); 
+            }
+        }
+
+        // プルダウン作成用のリスト取得（エラー時でも必要）
         List<Integer> entYearSet = new ArrayList<>();
         int year = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = year - 10; i < year + 1; i++) {
@@ -45,25 +62,15 @@ public class TestListSubjectExecuteAction extends Action {
         List<String> classNumSet = cDao.filter(teacher.getSchool());
         List<Subject> subjects = sDao.filter(teacher.getSchool());
 
-        // JSPに値をセット（検索条件の保持用）
-        req.setAttribute("f1", entYear);
+        // JSPに値をセット
+        req.setAttribute("f1", entYearStr);
         req.setAttribute("f2", classNum);
         req.setAttribute("f3", subjectCd);
-        req.setAttribute("tests", tests);
-        
-        // プルダウン用のリスト
         req.setAttribute("ent_year_set", entYearSet);
         req.setAttribute("class_num_set", classNumSet);
         req.setAttribute("subjects", subjects);
-        
-        if (subject != null) {
-            // ここを getName() から getSubjectName() に修正しました
-            // ※もしこれでもエラーが出るなら、Subjectクラスのメソッド名を確認してください
-            req.setAttribute("selected_subject_name", subject.getSubjectName()); 
-        }
 
-        // フォワード（test_list_subject.jspへ）
+        // 3. フォワード（ファイル名を test_list_subject.jsp に固定）
         req.getRequestDispatcher("test_list_subject.jsp").forward(req, res);
-
     }
 }

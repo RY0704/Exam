@@ -19,7 +19,7 @@ public class StudentCreateExecuteAction extends Action {
 		// ローカル変数の指定 1
 		HttpSession session = req.getSession(); // セッション
 		Teacher teacher = (Teacher)session.getAttribute("user");
-		int ent_year = 0; // 選択された入学年度
+		int ent_year = 0; // 選択された入学年度（初期値を0にしておく）
 		String student_no = ""; // 入力された学生番号
 		String student_name = ""; // 入力された氏名
 		String class_num = ""; // 選択されたクラス番号
@@ -28,16 +28,21 @@ public class StudentCreateExecuteAction extends Action {
 		Map<String, String> errors = new HashMap<>(); // エラーメッセージ
 
 		// リクエストパラメーターの取得 2
-		ent_year = Integer.parseInt(req.getParameter("ent_year"));
+		String ent_year_str = req.getParameter("ent_year"); // ★まずは文字列として受け取る
 		student_no = req.getParameter("no");
 		student_name = req.getParameter("name");
 		class_num = req.getParameter("class_num");
+
+		// ★空文字じゃない（何かが選択されている）場合のみ、数値に変換する
+		if (ent_year_str != null && !ent_year_str.isEmpty()) {
+			ent_year = Integer.parseInt(ent_year_str);
+		}
 
 		// DBからデータ取得 3
 		// なし
 
 		// ビジネスロジック 4
-		if (ent_year == 0) { // 入学年度が未選択だった場合
+		if (ent_year == 0) { // 入学年度が未選択だった場合（上の変換を通っていないので 0 のまま）
 			errors.put("1", "入学年度を選択してください");
 			// リクエストにエラーメッセージをセット
 			req.setAttribute("errors", errors);
@@ -60,8 +65,8 @@ public class StudentCreateExecuteAction extends Action {
 		}
 
 		// レスポンス値をセット 6
-		// リクエストに入学年度をセット
-		req.setAttribute("ent_year", ent_year);
+		// リクエストに入学年度をセット（文字列のまま送り返すか、数値を送り返すかは要件に合わせてください）
+		req.setAttribute("ent_year", ent_year_str); 
 		// リクエストに学生番号をセット
 		req.setAttribute("no", student_no);
 		// リクエストに氏名をセット
@@ -80,5 +85,3 @@ public class StudentCreateExecuteAction extends Action {
 	}
 
 }
-
-//まだ受け取っていないので、数値の箱には 0 を、文字の箱には ""（空文字）を入れて、「とりあえず空っぽの状態

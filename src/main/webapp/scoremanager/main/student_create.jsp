@@ -10,21 +10,30 @@
 
 			<form action="StudentCreateExecute.action" method="post">
 				<div class="container-fluid">
+				<%-- エラーメッセージの表示部分 --%>
 				<c:if test="${not empty errors}">
 		            <div class="row mb-3">
 		                <div class="col-12 px-4">
-		                    <div class="alert alert-danger">${errors}</div>
+		                    <div class="alert alert-danger">
+		                    	<%-- Mapに格納されたエラーメッセージの値を1つずつ取り出して表示する --%>
+		                    	<c:forEach var="error" items="${errors}">
+		                    		<c:out value="${error.value}" /><br>
+		                    	</c:forEach>
+		                    </div>
 		                </div>
 		            </div>
 		        </c:if>
+		        
 					<%-- No.2,3 入学年度 --%>
 					<div class="row mb-3">
 						<div class="col-12 px-4">
 							<label class="form-label">入学年度</label>
-							<select class="form-select" name="ent_year" required>
+							<%-- ブラウザの標準チェックを外し、Java側でエラーを出すため required を削除 --%>
+							<select class="form-select" name="ent_year">
 								<option value="">--------</option>
 								<c:forEach var="year" items="${ent_year_set}">
-									<option value="${year}">${year}</option>
+									<%-- 再入力の手間を省くため、前回選択した値と一致すればselectedをつける --%>
+									<option value="${year}" <c:if test="${year == ent_year}">selected</c:if>>${year}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -52,9 +61,11 @@
 					<div class="row mb-3">
 						<div class="col-12 px-4">
 							<label class="form-label">クラス</label>
-							<select class="form-select" name="class_num" required>
+							<%-- ブラウザの標準チェックを外し、Java側でエラーを出すため required を削除 --%>
+							<select class="form-select" name="class_num">
 								<c:forEach var="num" items="${class_num_set}">
-									<option value="${num}">${num}</option>
+									<%-- 再入力の手間を省くため、前回選択した値と一致すればselectedをつける --%>
+									<option value="${num}" <c:if test="${num == class_num}">selected</c:if>>${num}</option>
 								</c:forEach>
 							</select>
 						</div>

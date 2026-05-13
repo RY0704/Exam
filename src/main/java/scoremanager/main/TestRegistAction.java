@@ -18,117 +18,78 @@ import tool.Action;
 public class TestRegistAction extends Action {
 
     @Override
-
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
         HttpSession session = req.getSession();
-
         Teacher teacher = (Teacher) session.getAttribute("user");
 
         // 画面のプルダウン(⑥〜⑨)から値を取得
-
         String entYearStr = req.getParameter("f1"); // 入学年度
-
         String classNum = req.getParameter("f2");   // クラス
-
         String subjectCd = req.getParameter("f3");  // 科目
-
         String numStr = req.getParameter("f4");      // 回数
 
-//     // 27行目（numStrの取得）の直後あたりに追加
-
-//        System.out.println("--- 検索パラメータの確認 ---");
-
-//        System.out.println("入学年度(f1): " + entYearStr);
-
-//        System.out.println("クラス(f2): " + classNum);
-
-//        System.out.println("科目コード(f3): " + subjectCd);
-
-//        System.out.println("回数(f4): " + numStr);
-
         int entYear = 0;
-
         if (entYearStr != null && !entYearStr.equals("0")) {
-
             entYear = Integer.parseInt(entYearStr);
-
         }
 
         int num = 0;
-
         if (numStr != null && !numStr.equals("0")) {
-
             num = Integer.parseInt(numStr);
-
         }
 
         // DAOの準備
-
         TestDao tDao = new TestDao();
-
         ClassNumDao cDao = new ClassNumDao();
-
         SubjectDao sDao = new SubjectDao();
 
-        // プルダウン用のデータを取得
-
+        // プルダウン用のデータを取得（エラー時も正常時も画面に表示するために常に取得します）
         List<String> class_list = cDao.filter(teacher.getSchool());
-
         List<Subject> subject_list = sDao.filter(teacher.getSchool());
 
         // 入学年度リスト（過去10年分）
-
         List<Integer> ent_year_list = new ArrayList<>();
-
         int currentYear = LocalDate.now().getYear();
-
         for (int i = currentYear - 10; i <= currentYear; i++) {
-
             ent_year_list.add(i);
-
         }
 
-     // 検索ボタン(⑩)が押された時の処理
-
-        if (entYear != 0 && classNum != null && subjectCd != null && num != 0) {
-
-            // 1. まず、科目コード(subjectCd)を元にSubjectオブジェクトを取得する
-
-            Subject subject = sDao.get(subjectCd, teacher.getSchool());
-
-            // 2. TestDaoのfilterに合わせる（年度, クラス, 科目オブジェクト, 回数, 学校）
-
-            // エラー文によるとこの順番で渡す必要があります
-
-            List<Test> tests = tDao.filter(entYear, classNum, subject, num, teacher.getSchool());
-
-            req.setAttribute("tests", tests);
-
+        // ★ 検索ボタンが押されたかどうかの判定（初回アクセス時は entYearStr が null になる）
+        if (entYearStr != null) {
+            
+            // ★ バリデーション：検索条件が1つでも欠けている（未選択 "0" または null）場合
+            if (entYearStr.equals("0") || classNum == null || classNum.equals("0") ||
+                subjectCd == null || subjectCd.equals("0") || 
+                numStr == null || numStr.equals("0")) {
+                
+                // エラーメッセージをセット（DBの検索処理は行わない）
+                req.setAttribute("errors", "入学年度とクラスと科目と回数を選択してください");
+                
+            } else {
+                // 条件が全て揃っている場合のみ、正常に検索処理を行う
+                
+                // 1. 科目コード(subjectCd)を元にSubjectオブジェクトを取得する
+                Subject subject = sDao.get(subjectCd, teacher.getSchool());
+                // 2. TestDaoのfilterに合わせる
+                List<Test> tests = tDao.filter(entYear, classNum, subject, num, teacher.getSchool());
+                
+                req.setAttribute("tests", tests);
+            }
         }
 
         // JSPにデータを渡す
-
         req.setAttribute("ent_year_set", ent_year_list);
-
         req.setAttribute("class_num_set", class_list);
-
         req.setAttribute("subjects", subject_list);
 
         // 選択状態を保持するための値を送る
-
-        req.setAttribute("f1", entYear);
-
+        // （JSPの f1〜f4 で適切に受け取れるよう、入力された文字列をそのまま返却します）
+        req.setAttribute("f1", entYearStr);
         req.setAttribute("f2", classNum);
-
         req.setAttribute("f3", subjectCd);
-
-        req.setAttribute("f4", num);
+        req.setAttribute("f4", numStr);
 
         req.getRequestDispatcher("test_regist.jsp").forward(req, res);
-
     }
-
 }
-
- 

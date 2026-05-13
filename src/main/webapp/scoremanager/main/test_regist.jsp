@@ -6,6 +6,13 @@
         <section class="me-4">
             <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">成績管理</h2>
             
+            <%-- ★ エラーメッセージ表示 --%>
+            <c:if test="${not empty errors}">
+                <div class="alert alert-danger mb-3">
+                    ${errors}
+                </div>
+            </c:if>
+
             <%-- 検索用フォーム --%>
             <form action="TestRegist.action" method="get" class="mb-4">
                 <div class="row g-3 align-items-center">
@@ -57,7 +64,6 @@
                     科目コード：${f3} （${f4}回目）
                 </div>
  
-             
                 <form action="TestRegistExecute.action" method="post">
                     <input type="hidden" name="f1" value="${f1}">
                     <input type="hidden" name="f2" value="${f2}">
@@ -86,24 +92,24 @@
                                                value="${t.point}" class="form-control"
                                                style="width: 100px;">
                                         <c:forEach var="errNo" items="${errorStudentNos}">
-									        <c:if test="${errNo == t.student.studentNo}">
-									            <div style="color: #ffb200;; font-size: 0.8em; margin-top: 5px;">
-									                0〜100の範囲で入力してください
-									            </div>
-									        </c:if>
-									    </c:forEach>
+                                            <c:if test="${errNo == t.student.studentNo}">
+                                                <div style="color: #ffb200; font-size: 0.8em; margin-top: 5px;">
+                                                    0〜100の範囲で入力してください
+                                                </div>
+                                            </c:if>
+                                        </c:forEach>
                                     </td>
                                     <td>
-                                    	<a href="TestUpdate.action?stNum=${t.student.studentNo}&cd=${t.subjectCd}&no=${t.no}&f1=${f1}&f2=${f2}&f3=${f3}&f4=${f4}&f=${f}"
-				                           class="btn btn-outline-primary btn-sm">
-				                            変更
-				                        </a>
+                                        <a href="TestUpdate.action?stNum=${t.student.studentNo}&cd=${t.subjectCd}&no=${t.no}&f1=${f1}&f2=${f2}&f3=${f3}&f4=${f4}&f=${f}"
+                                           class="btn btn-outline-primary btn-sm">
+                                            変更
+                                        </a>
                                     </td>
                                     <td>
-                                    	<a href="TestDelete.action?stNum=${t.student.studentNo}&cd=${t.subjectCd}&no=${t.no}&f1=${f1}&f2=${f2}&f3=${f3}&f4=${f4}&f=${f}"
-				                           class="btn btn-outline-primary btn-sm">
-				                           削除
-				                        </a>
+                                        <a href="TestDelete.action?stNum=${t.student.studentNo}&cd=${t.subjectCd}&no=${t.no}&f1=${f1}&f2=${f2}&f3=${f3}&f4=${f4}&f=${f}"
+                                           class="btn btn-outline-primary btn-sm">
+                                           削除
+                                        </a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -125,4 +131,3 @@
         </section>
     </c:param>
 </c:import>
- 

@@ -48,6 +48,8 @@
 
                 <%-- 2. 学生情報検索フォーム --%>
                 <form action="TestListStudentExecute.action" method="get">
+                    <input type="hidden" name="f" value="st">
+                    
                     <div class="row g-3 align-items-center">
                         <div class="col-auto" style="width: 100px;">学生情報</div>
                         <div class="col-auto">
@@ -94,7 +96,6 @@
                                 <td>${t.classNum}</td>
                                 <td>${t.studentNo}</td>
                                 <td>${t.studentName}</td>
-                                <%-- ★ここを修正しました: [1] → ['1'], [2] → ['2'] --%>
                                 <td>${t.points['1'] == null ? '-' : t.points['1']}</td>
                                 <td>${t.points['2'] == null ? '-' : t.points['2']}</td>
                             </tr>

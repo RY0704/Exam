@@ -8,33 +8,9 @@ public class TestListSubject {
     private String studentNo;
     private String studentName;
     private String classNum;
-    private Map<Integer, Integer> points;
-
-    // --- JSP表示用の拡張メソッド ---
     
-    /**
-     * 1回目の点数を返します
-     * JSPから ${test.point1} で呼び出せます
-     */
-    public Integer getPoint1() {
-        if (points != null && points.containsKey(1)) {
-            return points.get(1);
-        }
-        return null;
-    }
-
-    /**
-     * 2回目の点数を返します
-     * JSPから ${test.point2} で呼び出せます
-     */
-    public Integer getPoint2() {
-        if (points != null && points.containsKey(2)) {
-            return points.get(2);
-        }
-        return null;
-    }
-
-    // --- 標準のゲッター・セッター ---
+    // ★修正ポイント：キーの型を Integer から String に変更しています
+    private Map<String, Integer> points;
 
     public int getEntYear() {
         return entYear;
@@ -68,11 +44,13 @@ public class TestListSubject {
         this.classNum = classNum;
     }
  
-    public Map<Integer, Integer> getPoints() {
+    // ★修正ポイント：戻り値の型を Map<String, Integer> に変更
+    public Map<String, Integer> getPoints() {
         return points;
     }
  
-    public void setPoints(Map<Integer, Integer> points) {
+    // ★修正ポイント：引数の型を Map<String, Integer> に変更
+    public void setPoints(Map<String, Integer> points) {
         this.points = points;
     }
 }

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,8 @@ public class TestListSubjectDao extends Dao {
             "ORDER BY st.student_no ASC";
 
     private List<TestListSubject> postFilter(ResultSet rSet) throws Exception {
-        Map<String, TestListSubject> map = new HashMap<>();
+        // SQLのORDER BYの並び順を保持するため LinkedHashMap を使用
+        Map<String, TestListSubject> map = new LinkedHashMap<>();
 
         try {
             while (rSet.next()) {
@@ -39,14 +41,18 @@ public class TestListSubjectDao extends Dao {
                     item.setClassNum(rSet.getString("class_num"));
                     item.setStudentNo(studentNo);
                     item.setStudentName(rSet.getString("student_name"));
-                    item.setPoints(new HashMap<Integer, Integer>());
+                    
+                    // ★修正ポイント1：HashMapの型を <String, Integer> に変更
+                    item.setPoints(new HashMap<String, Integer>());
                     map.put(studentNo, item);
                 }
 
                 int no = rSet.getInt("no");
                 if (!rSet.wasNull()) {
                     int point = rSet.getInt("point");
-                    item.getPoints().put(no, point);
+                    
+                    // ★修正ポイント2：キー(no)を String.valueOf() で文字列に変換して格納
+                    item.getPoints().put(String.valueOf(no), point);
                 }
             }
         } catch (SQLException e) {
@@ -80,7 +86,6 @@ public class TestListSubjectDao extends Dao {
             if (statement != null) statement.close();
             if (connection != null) connection.close();
         }
-        System.out.println("★DBから取得したリストのサイズ: " + list.size());
         return list;
     }
 }

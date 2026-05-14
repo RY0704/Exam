@@ -46,7 +46,7 @@
 
                 <hr>
 
-                <%-- 2. 学生情報検索フォーム（★ここを追加） --%>
+                <%-- 2. 学生情報検索フォーム --%>
                 <form action="TestListStudentExecute.action" method="get">
                     <div class="row g-3 align-items-center">
                         <div class="col-auto" style="width: 100px;">学生情報</div>
@@ -94,8 +94,9 @@
                                 <td>${t.classNum}</td>
                                 <td>${t.studentNo}</td>
                                 <td>${t.studentName}</td>
-                                <td>${t.points[1]}</td>
-                                <td>${t.points[2]}</td>
+                                <%-- ★ここを修正しました: [1] → ['1'], [2] → ['2'] --%>
+                                <td>${t.points['1'] == null ? '-' : t.points['1']}</td>
+                                <td>${t.points['2'] == null ? '-' : t.points['2']}</td>
                             </tr>
                         </c:forEach>
                     </tbody>

@@ -12,23 +12,18 @@ import bean.TestListStudent;
 
 public class TestListStudentDao extends Dao {
 
-    /**
-     * 修正ポイント：成績一覧を取得するためのSQL（学生、科目、テストを結合）
-     */
+
     private String baseSql = 
         "SELECT s.subject_name AS subject_name, s.subject_cd AS subject_cd, t.no, t.point " +
         "FROM test t " +
         "JOIN subject s ON t.subject_cd = s.subject_cd AND t.school_cd = s.school_cd " +
         "WHERE t.student_no = ? AND t.school_cd = ?";
 
-    /**
-     * ResultSetからTestListStudentリストへの変換処理
-     */
+
     private List<TestListStudent> postFilter(ResultSet resultSet) throws Exception {
         List<TestListStudent> list = new ArrayList<>();
         try {
             while (resultSet.next()) {
-                // TestListStudent（表示用Bean）にデータをセット
                 TestListStudent item = new TestListStudent();
                 
                 item.setSubjectName(resultSet.getString("subject_name"));
@@ -36,7 +31,7 @@ public class TestListStudentDao extends Dao {
                 item.setNum(resultSet.getInt("no"));
                 item.setPoint(resultSet.getInt("point"));
              
-                list.add(item); // 修正：宣言した変数itemを追加
+                list.add(item); 
             }
         } catch (SQLException e) {
             e.printStackTrace();

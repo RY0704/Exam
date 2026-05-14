@@ -23,7 +23,6 @@ public class TestUpdateAction extends Action {
  
         School school = teacher.getSchool();
 
-        // すべて f1 ～ f4 の名前に統一して取得
  
         String entYearStr = req.getParameter("f1"); // 入学年度
  

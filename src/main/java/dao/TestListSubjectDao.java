@@ -15,10 +15,6 @@ import bean.TestListSubject;
 
 public class TestListSubjectDao extends Dao {
 
-    /**
-     * 【修正済SQL】
-     * JOINをLEFT OUTER JOINに変更し、科目コードをON句へ移動しました。
-     */
     private String baseSql = 
             "SELECT st.ent_year, st.class_num, st.student_no, st.student_name, t.no, t.point " +
             "FROM student st " +
@@ -48,7 +44,6 @@ public class TestListSubjectDao extends Dao {
                 }
 
                 int no = rSet.getInt("no");
-                // LEFT JOINの結果、点数(t.no)が存在する場合のみMapに追加
                 if (!rSet.wasNull()) {
                     int point = rSet.getInt("point");
                     item.getPoints().put(no, point);
@@ -69,7 +64,6 @@ public class TestListSubjectDao extends Dao {
 
         try {
             statement = connection.prepareStatement(baseSql);
-            // ?へのセット順をbaseSqlの順番に修正
             statement.setString(1, subject.getSubjectCd()); // 科目コード
             statement.setInt(2, entYear);                   // 入学年度
             statement.setString(3, classNum);               // クラス

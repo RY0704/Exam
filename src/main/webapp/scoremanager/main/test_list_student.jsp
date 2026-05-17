@@ -109,7 +109,7 @@
                         </c:when>
 
                         <c:otherwise>
-                            <div class="alert alert-warning mt-2">成績情報が存在しませんでした</div>
+                            <div >成績情報が存在しませんでした</div>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -117,7 +117,7 @@
 
             <!-- エラー -->
             <c:if test="${not empty errors}">
-                <div class="alert alert-danger mt-3">${errors}</div>
+                <div >${errors}</div>
             </c:if>
 
         </section>

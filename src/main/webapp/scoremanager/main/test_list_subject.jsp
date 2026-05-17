@@ -42,6 +42,13 @@
                             <button type="submit" class="btn btn-secondary mt-4">検索</button>
                         </div>
                     </div>
+                    
+                    <%-- 【追加】科目検索の条件が足りない時（未入力）のエラーメッセージ --%>
+                    <c:if test="${not empty subject_errors}">
+                        <div class="mt-3">
+                            <p style="color: orange; margin: 0;">${subject_errors}</p>
+                        </div>
+                    </c:if>
                 </form>
 
                 <hr>
@@ -63,17 +70,20 @@
                 </form>
             </div>
 
-            <%-- エラーメッセージ表示位置 --%>
+            <%-- 下部のエラーメッセージ（検索結果0件などの場合） --%>
             <c:if test="${not empty errors}">
                 <div class="mb-2">
-                    <p style="color: red; font-weight: bold; margin: 0;">${errors}</p>
+                    <p >${errors}</p>
                 </div>
             </c:if>
 
-            <%-- 青いガイドメッセージ --%>
-            <div class="mb-4" style="color: #00bfff;">
-                科目情報を選択または学生情報を入力して検索ボタンをクリックしてください
-            </div>
+            <%-- 青いガイドメッセージ（初期表示のみ表示） --%>
+            <%-- ※未入力エラー時も消えるように「empty subject_errors」を追加しています --%>
+            <c:if test="${empty errors and empty subject_errors and empty tests}">
+                <div class="mb-4" style="color: #00bfff;">
+                    科目情報を選択または学生情報を入力して検索ボタンをクリックしてください
+                </div>
+            </c:if>
 
             <%-- 成績一覧表示エリア --%>
             <c:if test="${not empty tests}">

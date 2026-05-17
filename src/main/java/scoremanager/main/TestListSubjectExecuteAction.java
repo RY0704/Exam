@@ -37,8 +37,8 @@ public class TestListSubjectExecuteAction extends Action {
             classNum == null || classNum.equals("0") || 
             subjectCd == null || subjectCd.equals("0")) {
             
-            // エラーメッセージをセット
-            req.setAttribute("errors", "入学年度とクラスと科目を選択してください");
+            // 【変更】未入力エラーは "subject_errors" という別の名前でJSPに渡す
+            req.setAttribute("subject_errors", "入学年度とクラスと科目を選択してください");
             
         } else {
             // すべて選択されている時だけ数値に変換して検索
@@ -46,7 +46,13 @@ public class TestListSubjectExecuteAction extends Action {
             Subject subject = sDao.get(subjectCd, teacher.getSchool());
             List<TestListSubject> tests = dao.filter(entYear, classNum, subject, teacher.getSchool());
             
-            req.setAttribute("tests", tests);
+            // 検索結果が0件（またはnull）の場合の判定を追加
+            if (tests == null || tests.isEmpty()) {
+                // こちらは画面下部に出したいので "errors" のまま
+                req.setAttribute("errors", "学生情報が存在しませんでした");
+            } else {
+                req.setAttribute("tests", tests);
+            }
             
             if (subject != null) {
                 req.setAttribute("selected_subject_name", subject.getSubjectName()); 

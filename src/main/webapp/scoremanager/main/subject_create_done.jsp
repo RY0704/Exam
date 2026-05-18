@@ -16,7 +16,7 @@
 				<br>
 				<br>
 				<br>
-				<a href="StudentCreate.action">戻る</a>
+				<a href="SubjectCreate.action">戻る</a>
 				<a>　　　　</a>
 				<a href="SubjectList.action">科目一覧</a>
 			</div>

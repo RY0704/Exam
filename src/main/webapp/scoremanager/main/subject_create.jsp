@@ -10,6 +10,7 @@
 
 			<form action="SubjectCreateExecute.action" method="post">
 				<div class="container-fluid">
+				<%-- 
 				<c:if test="${not empty errors}">
 		            <div class="row mb-3">
 		                <div class="col-12 px-4">
@@ -17,6 +18,7 @@
 		                </div>
 		            </div>
 		        </c:if>
+		        --%>
 
 
 					<%-- 科目コード --%>
@@ -25,7 +27,13 @@
 
 							<label class="form-label">科目コード</label>
 							<input class="form-control" type="text" name="cd" value="${cd}" 
-								   maxlength="3" placeholder="科目コードを入力してください" required>
+								   maxlength="10" placeholder="科目コードを入力してください" required>
+								   
+							<c:if test="${not empty errors.subjectCd}">
+							    <div class="error-message" style="color: #ff9900; font-size: 12px; margin-top: 5px;">
+							         ${errors.subjectCd}
+                                </div>
+                            </c:if>
 						</div>
 					</div>
 
@@ -49,7 +57,7 @@
 					<%-- 戻るリンク --%>
 					<div class="row mt-3">
 						<div class="col-12 px-4">
-							<a href="SubjectList.action" class="text-decoration-none">戻る</a>
+							<a href="SubjectCreate.action" class="text-decoration-none">戻る</a>
 						</div>
 					</div>
 				</div>

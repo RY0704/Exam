@@ -67,9 +67,7 @@ public class TestRegistAction extends Action {
                 req.setAttribute("errors", "入学年度とクラスと科目と回数を選択してください");
                 
             } else {
-                // 条件が全て揃っている場合のみ、正常に検索処理を行う
-                
-                // 1. 科目コード(subjectCd)を元にSubjectオブジェクトを取得する
+
                 Subject subject = sDao.get(subjectCd, teacher.getSchool());
                 // 2. TestDaoのfilterに合わせる
                 List<Test> tests = tDao.filter(entYear, classNum, subject, num, teacher.getSchool());
@@ -78,13 +76,9 @@ public class TestRegistAction extends Action {
             }
         }
 
-        // JSPにデータを渡す
         req.setAttribute("ent_year_set", ent_year_list);
         req.setAttribute("class_num_set", class_list);
         req.setAttribute("subjects", subject_list);
-
-        // 選択状態を保持するための値を送る
-        // （JSPの f1〜f4 で適切に受け取れるよう、入力された文字列をそのまま返却します）
         req.setAttribute("f1", entYearStr);
         req.setAttribute("f2", classNum);
         req.setAttribute("f3", subjectCd);

@@ -22,7 +22,6 @@
                         </tr>
                         <c:forEach var="subject" items="${subjects}">
                             <tr>
-                                <%-- DAOの定義に合わせて subjectCd と subjectName に修正 --%>
                                 <td>${subject.subjectCd}</td>
                                 <td>${subject.subjectName}</td>
                                 <td><a href="SubjectUpdate.action?cd=${subject.subjectCd}">変更</a></td>

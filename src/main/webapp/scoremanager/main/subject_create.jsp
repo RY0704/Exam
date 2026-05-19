@@ -10,17 +10,6 @@
 
 			<form action="SubjectCreateExecute.action" method="post">
 				<div class="container-fluid">
-				<%-- 
-				<c:if test="${not empty errors}">
-		            <div class="row mb-3">
-		                <div class="col-12 px-4">
-		                    <div class="alert alert-danger">${errors}</div>
-		                </div>
-		            </div>
-		        </c:if>
-		        --%>
-
-
 					<%-- 科目コード --%>
 					<div class="row mb-3">
 						<div class="col-12 px-4">

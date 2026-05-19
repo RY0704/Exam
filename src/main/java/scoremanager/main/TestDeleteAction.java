@@ -20,7 +20,6 @@ public class TestDeleteAction extends Action {
         Teacher teacher = (Teacher) session.getAttribute("user");
         School school = teacher.getSchool();
 
-        // --- JSPのリンクの引数名に合わせて取得 ---
         String studentNo = request.getParameter("stNum"); // stNum を受け取る
         String subjectCd = request.getParameter("cd");    // cd を受け取る
         String noStr = request.getParameter("no");
@@ -37,7 +36,6 @@ public class TestDeleteAction extends Action {
         TestDeleteDao tdDao = new TestDeleteDao();
 
         if (execute != null) {
-            // 削除実行
             Test test = new Test();
             test.setStudentNo(studentNo);
             test.setSubjectCd(subjectCd);
@@ -46,7 +44,6 @@ public class TestDeleteAction extends Action {
 
             tdDao.delete(test);
             
-            // 完了画面でも「戻る」ボタンで検索条件を使えるようにセット
             request.setAttribute("f1", f1);
             request.setAttribute("f2", f2);
             request.setAttribute("f3", f3);

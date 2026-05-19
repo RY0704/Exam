@@ -22,7 +22,6 @@ public class TestListSubjectExecuteAction extends Action {
         HttpSession session = req.getSession();
         Teacher teacher = (Teacher) session.getAttribute("user");
 
-        // 1. まずは文字列として取得（未入力時のエラーを防ぐ）
         String entYearStr = req.getParameter("f1");
         String classNum = req.getParameter("f2");
         String subjectCd = req.getParameter("f3");
@@ -32,12 +31,10 @@ public class TestListSubjectExecuteAction extends Action {
         ClassNumDao cDao = new ClassNumDao();
         TestListSubjectDao dao = new TestListSubjectDao();
 
-        // 2. バリデーション（未入力チェック）
         if (entYearStr == null || entYearStr.equals("0") || 
             classNum == null || classNum.equals("0") || 
             subjectCd == null || subjectCd.equals("0")) {
             
-            // 【変更】未入力エラーは "subject_errors" という別の名前でJSPに渡す
             req.setAttribute("subject_errors", "入学年度とクラスと科目を選択してください");
             
         } else {
@@ -46,7 +43,7 @@ public class TestListSubjectExecuteAction extends Action {
             Subject subject = sDao.get(subjectCd, teacher.getSchool());
             List<TestListSubject> tests = dao.filter(entYear, classNum, subject, teacher.getSchool());
             
-            // 検索結果が0件（またはnull）の場合の判定を追加
+            // 検索結果が0件（またはnull）の場合の判定
             if (tests == null || tests.isEmpty()) {
                 // こちらは画面下部に出したいので "errors" のまま
                 req.setAttribute("errors", "学生情報が存在しませんでした");
@@ -68,15 +65,12 @@ public class TestListSubjectExecuteAction extends Action {
         List<String> classNumSet = cDao.filter(teacher.getSchool());
         List<Subject> subjects = sDao.filter(teacher.getSchool());
 
-        // JSPに値をセット
         req.setAttribute("f1", entYearStr);
         req.setAttribute("f2", classNum);
         req.setAttribute("f3", subjectCd);
         req.setAttribute("ent_year_set", entYearSet);
         req.setAttribute("class_num_set", classNumSet);
         req.setAttribute("subjects", subjects);
-
-        // 3. フォワード（ファイル名を test_list_subject.jsp に固定）
         req.getRequestDispatcher("test_list_subject.jsp").forward(req, res);
     }
 }

@@ -25,7 +25,6 @@ public class TestListSubjectDao extends Dao {
             "ORDER BY st.student_no ASC";
 
     private List<TestListSubject> postFilter(ResultSet rSet) throws Exception {
-        // SQLのORDER BYの並び順を保持するため LinkedHashMap を使用
         Map<String, TestListSubject> map = new LinkedHashMap<>();
 
         try {
@@ -40,9 +39,7 @@ public class TestListSubjectDao extends Dao {
                     item.setEntYear(rSet.getInt("ent_year"));
                     item.setClassNum(rSet.getString("class_num"));
                     item.setStudentNo(studentNo);
-                    item.setStudentName(rSet.getString("student_name"));
-                    
-                    // ★修正ポイント1：HashMapの型を <String, Integer> に変更
+                    item.setStudentName(rSet.getString("student_name")); 
                     item.setPoints(new HashMap<String, Integer>());
                     map.put(studentNo, item);
                 }
@@ -51,7 +48,6 @@ public class TestListSubjectDao extends Dao {
                 if (!rSet.wasNull()) {
                     int point = rSet.getInt("point");
                     
-                    // ★修正ポイント2：キー(no)を String.valueOf() で文字列に変換して格納
                     item.getPoints().put(String.valueOf(no), point);
                 }
             }
